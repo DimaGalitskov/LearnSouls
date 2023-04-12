@@ -17,7 +17,7 @@ namespace SOULS
         public static CameraHandler singleton;
 
         public float lookSpeed = 0.1f;
-        public float followSpeed = 0.1f;
+        public float followSpeed = 0.05f;
         public float pivotSpeed = 0.03f;
 
         private float targetPosition;
@@ -27,16 +27,16 @@ namespace SOULS
         public float minimumPivot = -35;
         public float maximumPivot = 35;
 
-        public float cameraSphereRadius = 0.2f;
-        public float cameraCollisionOffset = 0.2f;
-        public float minimumCollisionOffset = 0.2f;
+        public float cameraSphereRadius = 0.1f;
+        public float cameraCollisionOffset = 0.1f;
+        public float minimumCollisionOffset = 0.1f;
 
         private void Awake()
         {
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
+            ignoreLayers = ~(1 << 6 | 1 << 8 | 1 << 9 | 1 << 10);
         }
 
         public void FollowTarget(float delta) {

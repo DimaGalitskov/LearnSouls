@@ -14,6 +14,8 @@ namespace SOULS
 
         public bool b_Input;
         public bool rollFlag;
+        public bool sprintFlag;
+        public float rollInputTimer;
         public bool isInteracting;
 
         PlayerControls inputActions;
@@ -22,7 +24,7 @@ namespace SOULS
         Vector2 movementInput;
         Vector2 cameraInput;
 
-        private void Awake()
+        private void Start()
         {
             cameraHandler = CameraHandler.singleton;
         }
@@ -74,8 +76,18 @@ namespace SOULS
 
             if (b_Input)
             {
+                rollInputTimer += delta;
+                sprintFlag = true;
+            }
+            else
+            {
+                if (rollInputTimer > 0 && rollInputTimer < 0.5f)
+                {
+                    sprintFlag = false;
+                    rollFlag = true;
+                }
 
-                rollFlag = true;
+                rollInputTimer = 0;
             }
         }
     }
