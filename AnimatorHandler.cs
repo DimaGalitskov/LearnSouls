@@ -7,14 +7,16 @@ namespace SOULS
     public class AnimatorHandler : MonoBehaviour
     {
         public Animator anim;
-        public InputHandler inputHandler;
-        public PlayerLocomotion playerLocomotion;
+        PlayerManager playerManager;
+        InputHandler inputHandler;
+        PlayerLocomotion playerLocomotion;
         int vertical;
         int horizontal;
         public bool canRotate;
 
         public void Initialize()
         {
+            playerManager = GetComponentInParent<PlayerManager>();
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -91,8 +93,9 @@ namespace SOULS
 
         private void OnAnimatorMove()
         {
-            if (inputHandler.isInteracting == false)
+            if (playerManager.isInteracting == false)
                 return;
+
             float delta = Time.deltaTime;
             playerLocomotion.rigidbody.drag = 0;
             Vector3 deltaposition = anim.deltaPosition;
