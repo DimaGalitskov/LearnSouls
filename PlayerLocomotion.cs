@@ -9,7 +9,7 @@ namespace SOULS
         PlayerManager playerManager;
         Transform cameraObject;
         InputHandler inputHandler;
-        Vector3 moveDirection;
+        public Vector3 moveDirection;
 
         [HideInInspector]
         public Transform myTransform;
@@ -23,9 +23,23 @@ namespace SOULS
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
+        float walkingSpeed = 1;
+        [SerializeField]
         float sprintSpeed = 7;
         [SerializeField]
         float rotationSpeed = 10;
+        [SerializeField]
+        float fallingSpeed = 45;
+
+        [Header("Ground and Air Detection Stats")]
+        [SerializeField]
+        float groundDetectionRayStartPoint = 0.5f;
+        [SerializeField]
+        float minimumDistanceNeededToBeginFall = 1f;
+        [SerializeField]
+        float groundDirectionRayDistance = 0.2f;
+        LayerMask ignoreForGroundCheck;
+        public float inAirTimer;
 
         void Start()
         {
@@ -36,6 +50,10 @@ namespace SOULS
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
+
+            playerManager.isGrounded = true;
+            ignoreForGroundCheck = ~(1 << 6 | 1 << 8 | 1 << 11);
+
         }
 
         #region Movement
@@ -68,6 +86,9 @@ namespace SOULS
             if (inputHandler.rollFlag)
                 return;
 
+            if (playerManager.isInteracting)
+                return;
+
             moveDirection = cameraObject.forward * inputHandler.vertical;
             moveDirection += cameraObject.right * inputHandler.horizontal;
             moveDirection.Normalize();
@@ -75,7 +96,7 @@ namespace SOULS
 
             float speed = movementSpeed;
 
-            if (inputHandler.sprintFlag)
+            if (inputHandler.sprintFlag && inputHandler.moveAmount > 0.5)
             {
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
@@ -83,7 +104,16 @@ namespace SOULS
             }
             else
             {
-                moveDirection *= speed;
+                if (inputHandler.moveAmount < 0.5)
+                {
+                    moveDirection *= walkingSpeed;
+                    playerManager.isSprinting = false;
+                }
+                else
+                {
+                    moveDirection *= speed;
+                    playerManager.isSprinting = false;
+                }
             }
 
             Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
@@ -118,6 +148,91 @@ namespace SOULS
                 }
             }
         }
+
+        public void HandleFalling(float delta, Vector3 moveDirection)
+        {
+            playerManager.isGrounded = false;
+            RaycastHit hit;
+            Vector3 origin = myTransform.position;
+            origin.y += groundDetectionRayStartPoint;
+
+            if (Physics.Raycast(origin, myTransform.forward, out hit, 0.4f))
+            {
+                moveDirection = Vector3.zero;
+            }
+
+            if (playerManager.isInAir)
+            {
+                rigidbody.AddForce(-Vector3.up * fallingSpeed);
+                rigidbody.AddForce(moveDirection * fallingSpeed / 10F);
+            }
+
+            Vector3 dir = moveDirection;
+            dir.Normalize();
+            origin = origin + dir * groundDirectionRayDistance;
+
+            targetPosition = myTransform.position;
+
+            Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
+            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck))
+            {
+                normalVector = hit.normal;
+                Vector3 tp = hit.point;
+                playerManager.isGrounded = true;
+                targetPosition.y = tp.y;
+                Debug.DrawLine(tp, tp + Vector3.forward, Color.magenta);
+
+                if (playerManager.isInAir)
+                {
+                    if (inAirTimer > 0.5f)
+                    {
+                        Debug.Log("You were falling for" + inAirTimer);
+                        animatorHandler.PlayTargetAnimation("Landing", true);
+                        inAirTimer = 0;
+                    }
+                    else
+                    {
+                        animatorHandler.PlayTargetAnimation("Entry", false);
+                        inAirTimer = 0;
+                    }
+
+                    playerManager.isInAir = false;
+                }
+            }
+            else
+            {
+                if (playerManager.isGrounded)
+                {
+                    playerManager.isGrounded = false;
+                }
+
+                if (playerManager.isInAir == false)
+                {
+                    if (playerManager.isInteracting == false)
+                    {
+                        animatorHandler.PlayTargetAnimation("Falling", true);
+                    }
+
+                    Vector3 velocity = rigidbody.velocity;
+                    velocity.Normalize();
+                    rigidbody.velocity = velocity * (movementSpeed / 2);
+                    playerManager.isInAir = true;
+                }
+            }
+
+            if (playerManager.isGrounded)
+            {
+                if (playerManager.isInteracting || inputHandler.moveAmount > 0)
+                {
+                    myTransform.position = Vector3.Lerp(myTransform.position, targetPosition, Time.deltaTime);
+                }
+                else
+                {
+                    myTransform.position = targetPosition;
+                }
+            }
+        }
+
         #endregion
 
     }
