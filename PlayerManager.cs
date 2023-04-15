@@ -19,10 +19,15 @@ namespace SOULS
         public bool isSprinting;
         public bool isInAir;
         public bool isGrounded;
+        public bool isDead;
+
+        private void Awake()
+        {
+            cameraHandler = FindObjectOfType<CameraHandler>();
+        }
 
         void Start()
         {
-            cameraHandler = CameraHandler.singleton;
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();

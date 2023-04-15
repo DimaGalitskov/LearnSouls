@@ -1,0 +1,13 @@
+.HealthBar {
+    background-color: rgba(255, 0, 0, 0.58);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-image: none;
+    -unity-background-image-tint-color: rgb(255, 0, 0);
+}

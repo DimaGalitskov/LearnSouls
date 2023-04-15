@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/SoulsHUD.uss?fileID=7433441132597879392&amp;guid=32a582de63c8e4e95bdd65cdf8fabede&amp;type=3#SoulsHUD" />
+    <ui:VisualElement name="Root" style="width: 100%; height: 100%;">
+        <ui:ProgressBar name="HealthBar" class="HealthBar" style="left: 50px; top: 50px; width: 100px; height: auto; opacity: 1;" />
+    </ui:VisualElement>
+</ui:UXML>
