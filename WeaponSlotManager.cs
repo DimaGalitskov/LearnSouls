@@ -9,8 +9,14 @@ namespace SOULS
         WeaponHolderSlot rightHandSlot;
         WeaponHolderSlot leftHandSlot;
 
+        DamageCollider rightHandDamageCollider;
+        DamageCollider leftHandDamageCollider;
+
+        ParticleUse particleUse;
+
         private void Awake()
         {
+            particleUse = GetComponentInChildren<ParticleUse>();
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
@@ -30,11 +36,47 @@ namespace SOULS
             if (isLeft)
             {
                 leftHandSlot.LoadWeaponModel(weaponItem);
+                LoadLeftWeaponDamageCollider();
             }
             else
             {
                 rightHandSlot.LoadWeaponModel(weaponItem);
+                LoadRightWeaponDamageCollider();
             }
         }
+
+        #region Handle Weapon Damage Colliders
+
+        public void LoadLeftWeaponDamageCollider()
+        {
+            leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void LoadRightWeaponDamageCollider()
+        {
+            rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void OpenLeftDamageCollider()
+        {
+            leftHandDamageCollider.EnableDamageCollider();
+        }
+
+        public void CloseLeftDamageCollider()
+        {
+            leftHandDamageCollider.DisableDamageCollider();
+        }
+
+        public void OpenRightDamageCollider()
+        {
+            rightHandDamageCollider.EnableDamageCollider();
+        }
+
+        public void CloseRightDamageCollider()
+        {
+            rightHandDamageCollider.DisableDamageCollider();
+        }
+
+        #endregion
     }
 }

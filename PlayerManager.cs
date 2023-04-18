@@ -20,6 +20,7 @@ namespace SOULS
         public bool isInAir;
         public bool isGrounded;
         public bool isDead;
+        public bool canDoCombo;
 
         private void Awake()
         {
@@ -38,6 +39,7 @@ namespace SOULS
             float delta = Time.deltaTime;
 
             isInteracting = anim.GetBool("isInteracting");
+            canDoCombo = anim.GetBool("canDoCombo");
 
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);

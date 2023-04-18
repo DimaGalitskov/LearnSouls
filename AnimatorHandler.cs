@@ -10,6 +10,7 @@ namespace SOULS
         PlayerManager playerManager;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
+        ParticleSystem particleSystem;
         int vertical;
         int horizontal;
         public bool canRotate;
@@ -89,6 +90,27 @@ namespace SOULS
 
         public void StopRotation() {
             canRotate = false;
+        }
+
+        public void EnableCombo()
+        {
+            anim.SetBool("canDoCombo", true);
+        }
+
+        public void DisableCombo()
+        {
+            anim.SetBool("canDoCombo", false);
+        }
+
+        public void SetActionParticle(ParticleSystem current)
+        {
+            particleSystem = current;
+        }
+
+        public void PlayActionParticle()
+        {
+            var particle = Instantiate(particleSystem, transform);
+            Destroy(particle, 1);
         }
 
         private void OnAnimatorMove()
