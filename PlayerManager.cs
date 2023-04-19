@@ -62,10 +62,16 @@ namespace SOULS
         {
             inputHandler.rollFlag = false;
             inputHandler.sprintFlag = false;
+            inputHandler.rb_Input = false;
+            inputHandler.rt_Input = false;
+            inputHandler.dPad_Up = false;
+            inputHandler.dPad_Down = false;
+            inputHandler.dPad_Right = false;
+            inputHandler.dPad_Left = false;
 
             if (isInAir)
             {
-                playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
+                playerLocomotion.inAirTimer += Time.deltaTime;
             }
         }
     }

@@ -10,24 +10,41 @@ namespace SOULS
         public int healthLevel = 10;
         public int maxHealth;
         public int currentHealth;
-        public SoulsHUD soulsHUD;
 
+        public int staminaLevel = 10;
+        public int maxStamina;
+        public int currentStamina;
+
+        SoulsHUD soulsHUD;
         AnimatorHandler animatorHandler;
         PlayerManager playerManager;
 
-        private void Start()
+        private void Awake()
         {
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             playerManager = GetComponent<PlayerManager>();
+        }
+
+        private void Start()
+        {
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
             soulsHUD.SetMaxHealth(maxHealth);
+
+            maxStamina = SetMaxStaminaFromStaminaLevel();
+            currentStamina = maxStamina;
         }
 
         int SetMaxHealthFromHealthLevel()
         {
             maxHealth = healthLevel * 10;
             return maxHealth;
+        }
+
+        int SetMaxStaminaFromStaminaLevel()
+        {
+            maxStamina = staminaLevel * 10;
+            return maxStamina;
         }
 
         public void TakeDamage(int damage)
@@ -45,6 +62,12 @@ namespace SOULS
                     animatorHandler.PlayTargetAnimation("Dying", true);
                 }
             }
+        }
+
+        public void DrainStamina(int drain)
+        {
+            currentStamina -= drain;
+            soulsHUD.SetCurrentStamina(currentStamina);
         }
     }
 }

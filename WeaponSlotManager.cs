@@ -6,17 +6,26 @@ namespace SOULS
 {
     public class WeaponSlotManager : MonoBehaviour
     {
+        public WeaponItem attackingWeapon;
+
         WeaponHolderSlot rightHandSlot;
         WeaponHolderSlot leftHandSlot;
 
         DamageCollider rightHandDamageCollider;
         DamageCollider leftHandDamageCollider;
 
-        ParticleUse particleUse;
+        Animator animator;
+
+        QuickSlotsUI quickSlotsUI;
+
+        PlayerStats playerStats;
 
         private void Awake()
         {
-            particleUse = GetComponentInChildren<ParticleUse>();
+            animator = GetComponentInChildren<Animator>();
+            quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
+            playerStats = GetComponentInParent<PlayerStats>();
+
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
@@ -37,11 +46,33 @@ namespace SOULS
             {
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
+                #region Left Weapon Idle Animations
+                if (weaponItem != null)
+                {
+                    animator.CrossFade(weaponItem.left_Hand_Idle, 0.2f);
+                }
+                else
+                {
+                    animator.CrossFade("Left Arm Empty", 0.2f);
+                }
+                #endregion
             }
             else
             {
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
+                quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                #region Right Weapon Idle Animations
+                if (weaponItem != null)
+                {
+                    animator.CrossFade(weaponItem.right_Hand_Idle, 0.2f);
+                }
+                else
+                {
+                    animator.CrossFade("Right Arm Empty", 0.2f);
+                }
+                #endregion
             }
         }
 
@@ -77,6 +108,18 @@ namespace SOULS
             rightHandDamageCollider.DisableDamageCollider();
         }
 
+        #endregion
+
+        #region Handle Weapon Stamina Drain
+        public void DrainStaminaLightAttack()
+        {
+            playerStats.DrainStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
+        }
+
+        public void DrainStaminaHeavyAttack()
+        {
+            playerStats.DrainStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
+        }
         #endregion
     }
 }

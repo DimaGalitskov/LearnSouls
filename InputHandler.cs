@@ -15,6 +15,10 @@ namespace SOULS
         public bool b_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool dPad_Up;
+        public bool dPad_Down;
+        public bool dPad_Right;
+        public bool dPad_Left;
 
         public bool rollFlag;
         public bool sprintFlag;
@@ -29,6 +33,7 @@ namespace SOULS
 
         Vector2 movementInput;
         Vector2 cameraInput;
+        Vector2 dPadInput;
 
         private void Awake()
         {
@@ -42,19 +47,21 @@ namespace SOULS
             if (inputActions == null)
             {
                 inputActions = new PlayerControls();
-                inputActions.PlayerMovement.Movement.performed += inputActions =>
-                    movementInput = inputActions.ReadValue<Vector2>();
-                inputActions.PlayerMovement.Camera.performed += ctx =>
-                    cameraInput = ctx.ReadValue<Vector2>();
+                inputActions.PlayerMovement.Movement.performed += context =>
+                    movementInput = context.ReadValue<Vector2>();
+                inputActions.PlayerMovement.Camera.performed += context =>
+                    cameraInput = context.ReadValue<Vector2>();
 
                 inputActions.PlayerActions.Roll.performed += ctx => b_Input = true;
                 inputActions.PlayerActions.Roll.canceled += ctx => b_Input = false;
 
                 inputActions.PlayerActions.RB.performed += ctx => rb_Input = true;
-                inputActions.PlayerActions.RB.canceled += ctx => rb_Input = false;
 
                 inputActions.PlayerActions.RT.performed += ctx => rt_Input = true;
-                inputActions.PlayerActions.RT.canceled += ctx => rt_Input = false;
+
+                inputActions.PlayerQuickSlots.DpadRight.performed += ctx => dPad_Right = true;
+
+                inputActions.PlayerQuickSlots.DpadLeft.performed += ctx => dPad_Left = true;
             }
 
             inputActions.Enable();
@@ -69,6 +76,7 @@ namespace SOULS
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleQuickSlotInput();
         }
 
         private void MoveInput(float delta) {
@@ -121,6 +129,18 @@ namespace SOULS
             if (rt_Input)
             {
                 playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+            }
+        }
+
+        private void HandleQuickSlotInput()
+        {
+            if (dPad_Right)
+            {
+                playerInventory.ChangeRightWeapon();
+            }
+            else if (dPad_Left)
+            {
+                playerInventory.ChangeLeftWeapon();
             }
         }
     }
