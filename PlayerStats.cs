@@ -8,12 +8,12 @@ namespace SOULS
     public class PlayerStats : CharacterStats
     {
         SoulsHUD soulsHUD;
-        AnimatorHandler animatorHandler;
+        PlayerAnimator animatorHandler;
         PlayerManager playerManager;
 
         private void Awake()
         {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animatorHandler = GetComponentInChildren<PlayerAnimator>();
             playerManager = GetComponent<PlayerManager>();
             soulsHUD = FindObjectOfType<SoulsHUD>();
         }

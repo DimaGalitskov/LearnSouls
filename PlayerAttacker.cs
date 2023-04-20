@@ -6,7 +6,7 @@ namespace SOULS
 {
     public class PlayerAttacker : MonoBehaviour
     {
-        AnimatorHandler animatorHandler;
+        PlayerAnimator animatorHandler;
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
 
@@ -14,7 +14,7 @@ namespace SOULS
 
         private void Awake()
         {
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animatorHandler = GetComponentInChildren<PlayerAnimator>();
             inputHandler = GetComponent<InputHandler>();
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
         }

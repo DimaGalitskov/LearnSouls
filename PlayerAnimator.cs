@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class AnimatorHandler : MonoBehaviour
+    public class PlayerAnimator : AnimatorManager
     {
-        public Animator anim;
         PlayerManager playerManager;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
@@ -76,12 +75,6 @@ namespace SOULS
 
             anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
-        }
-
-        public void PlayTargetAnimation(string targetAnim, bool isInteracting) {
-            anim.applyRootMotion = isInteracting;
-            anim.SetBool("isInteracting", isInteracting);
-            anim.CrossFade(targetAnim, 0.1f);
         }
 
         public void CanRotate() {

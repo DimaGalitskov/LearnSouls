@@ -7,7 +7,7 @@ namespace SOULS
     public class EnemyManager : MonoBehaviour
     {
         EnemyLocomotionManager enemyLocomotionManager;
-        bool isPerformingAction;
+        public bool isPerformingAction;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
@@ -22,6 +22,11 @@ namespace SOULS
         // Update is called once per frame
         void Update()
         {
+
+        }
+
+        private void FixedUpdate()
+        {
             HandleCurrentAction();
         }
 
@@ -31,7 +36,10 @@ namespace SOULS
             {
                 enemyLocomotionManager.HandleDetection();
             }
-            
+            else
+            {
+                enemyLocomotionManager.HandleMoveToTarget();
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace SOULS
         [HideInInspector]
         public Transform myTransform;
         [HideInInspector]
-        public AnimatorHandler animatorHandler;
+        public PlayerAnimator animatorHandler;
 
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
@@ -46,7 +46,7 @@ namespace SOULS
             playerManager = GetComponent<PlayerManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            animatorHandler = GetComponentInChildren<PlayerAnimator>();
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
