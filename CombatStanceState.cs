@@ -12,16 +12,21 @@ namespace SOULS
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
-            enemyManager.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             //Check for attack range
             //Potentially circle player of walk around to flank them
             //If in attack range then return the attack state
+            if (enemyManager.isPerformingAction)
+            {
+                enemyAnimator.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
+            }
+
             if (enemyManager.currentRecoveryTime <= 0
-                && enemyManager.distanceFromTarget <= enemyManager.maximumAttackRange)
+                && distanceFromTarget <= enemyManager.maximumAttackRange)
             {
                 return attackState;
             }
-            else if (enemyManager.distanceFromTarget > enemyManager.maximumAttackRange)
+            else if (distanceFromTarget > enemyManager.maximumAttackRange)
             {
                 return pursueTargetState;
             }

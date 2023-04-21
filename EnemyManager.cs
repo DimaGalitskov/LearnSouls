@@ -17,15 +17,14 @@ namespace SOULS
         public Rigidbody enemyRigidbody;
 
         public bool isPerformingAction;
+        public bool isInteracting;
         public float rotationSpeed = 25;
-        public float distanceFromTarget;
         public float maximumAttackRange = 2f;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
-        public float viewableAngle;
 
         public float currentRecoveryTime = 0;
 
@@ -46,6 +45,8 @@ namespace SOULS
         void Update()
         {
             HandleRecoveryTime();
+
+            isInteracting = enemyAnimator.anim.GetBool("isInteracting");
         }
 
         private void FixedUpdate()

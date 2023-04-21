@@ -22,7 +22,7 @@ namespace SOULS
 
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            enemyManager.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
 
             if (enemyManager.isPerformingAction)
@@ -31,16 +31,16 @@ namespace SOULS
             if (currentAttack != null)
             {
                 //If we are too close to perform the attack, get a new attack
-                if (enemyManager.distanceFromTarget < currentAttack.minimumDistanceToAttack)
+                if (distanceFromTarget < currentAttack.minimumDistanceToAttack)
                 {
                     return this;
                 }
                 //If we are close enough then we proceed
-                else if (enemyManager.distanceFromTarget < currentAttack.maximumDistanceToAttack)
+                else if (distanceFromTarget < currentAttack.maximumDistanceToAttack)
                 {
                     //If our enemy is within our attack viewable angle, then we attack
-                    if (enemyManager.viewableAngle <= currentAttack.maximumAttackAngle
-                        && enemyManager.viewableAngle >= currentAttack.minimumAttackAngle)
+                    if (viewableAngle <= currentAttack.maximumAttackAngle
+                        && viewableAngle >= currentAttack.minimumAttackAngle)
                     {
                         if (enemyManager.currentRecoveryTime <= 0
                             && enemyManager.isPerformingAction == false)
@@ -67,17 +67,17 @@ namespace SOULS
 
         private void GetNewAttack(EnemyManager enemyManager)
         {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            enemyManager.distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, transform.position);
+            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
             int maxScore = 0;
             for (int i = 0; i < enemyAttackActions.Length; i++)
             {
                 EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
 
-                if (enemyManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && enemyManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
+                if (distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
+                    && distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
                 {
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                         && viewableAngle >= enemyAttackAction.minimumAttackAngle)
@@ -94,8 +94,8 @@ namespace SOULS
             {
                 EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
 
-                if (enemyManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && enemyManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
+                if (distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
+                    && distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
                 {
                     if (viewableAngle <= enemyAttackAction.maximumAttackAngle
                         && viewableAngle >= enemyAttackAction.minimumAttackAngle)
