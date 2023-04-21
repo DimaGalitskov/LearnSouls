@@ -8,10 +8,12 @@ namespace SOULS
     {
         EnemyLocomotionManager enemyLocomotionManager;
         EnemyAnimator enemyAnimator;
-        public bool isPerformingAction;
+        EnemyStats enemyStats;
 
-        public EnemyAttackAction[] enemyAttackActions;
-        public EnemyAttackAction currentAttack;
+        public State currentState;
+        public CharacterStats currentTarget;
+
+        public bool isPerformingAction;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
@@ -24,6 +26,7 @@ namespace SOULS
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+            enemyStats = GetComponent<EnemyStats>();
         }
 
         // Update is called once per frame
@@ -34,30 +37,25 @@ namespace SOULS
 
         private void FixedUpdate()
         {
-            HandleCurrentAction();
+            HandleState();
         }
 
-        void HandleCurrentAction()
+        void HandleState()
         {
-            if (enemyLocomotionManager.currentTarget != null)
+            if (currentState != null)
             {
-                enemyLocomotionManager.distanceFromTarget =
-                    Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position);
-            }
+                State nextState = currentState.Tick(this, enemyStats, enemyAnimator);
 
+                if (nextState != null)
+                {
+                    SwitchToNextState(nextState);
+                }
+            }
+        }
 
-            if (enemyLocomotionManager.currentTarget == null)
-            {
-                enemyLocomotionManager.HandleDetection();
-            }
-            else if (enemyLocomotionManager.distanceFromTarget > enemyLocomotionManager.stoppingDistance)
-            {
-                enemyLocomotionManager.HandleMoveToTarget();
-            }
-            else if (enemyLocomotionManager.distanceFromTarget <= enemyLocomotionManager.stoppingDistance)
-            {
-                AttackTarget();
-            }
+        private void SwitchToNextState(State state)
+        {
+            currentState = state;
         }
 
         private void HandleRecoveryTime()
@@ -76,74 +74,74 @@ namespace SOULS
             }
         }
 
-        #region Attacks
-
-        private void AttackTarget()
-        {
-            if (isPerformingAction)
-                return;
-
-            if (currentAttack == null)
-            {
-                GetNewAttack();
-            }
-            else
-            {
-                isPerformingAction = true;
-                currentRecoveryTime = currentAttack.recoveryTime;
-                enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
-                currentAttack = null;
-            }
-        }
-
-        private void GetNewAttack()
-        {
-            Vector3 targetDirection = enemyLocomotionManager.currentTarget.transform.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
-            enemyLocomotionManager.distanceFromTarget = Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position);
-
-            int maxScore = 0;
-            for (int i = 0; i < enemyAttackActions.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
-
-                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
-                        && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        maxScore += enemyAttackAction.attackScore;
-                    }
-                }
-            }
-
-            int randomValue = Random.Range(0, maxScore);
-            int temporaryScore = 0;
-
-            for (int i = 0; i < enemyAttackActions.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
-
-                if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
-                        && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        if (currentAttack != null)
-                            return;
-
-                        temporaryScore += enemyAttackAction.attackScore;
-
-                        if (temporaryScore > randomValue)
-                        {
-                            currentAttack = enemyAttackAction;
-                        }
-                    }
-                }
-            }
-        }
-        #endregion
+        //#region Attacks
+        //
+        //private void AttackTarget()
+        //{
+        //    if (isPerformingAction)
+        //        return;
+        //
+        //    if (currentAttack == null)
+        //    {
+        //        GetNewAttack();
+        //    }
+        //    else
+        //    {
+        //        isPerformingAction = true;
+        //        currentRecoveryTime = currentAttack.recoveryTime;
+        //        enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+        //        currentAttack = null;
+        //    }
+        //}
+        //
+        //private void GetNewAttack()
+        //{
+        //    Vector3 targetDirection = enemyLocomotionManager.currentTarget.transform.position - transform.position;
+        //    float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+        //    enemyLocomotionManager.distanceFromTarget = Vector3.Distance(enemyLocomotionManager.currentTarget.transform.position, transform.position);
+        //
+        //    int maxScore = 0;
+        //    for (int i = 0; i < enemyAttackActions.Length; i++)
+        //    {
+        //        EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
+        //
+        //        if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
+        //            && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
+        //        {
+        //            if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+        //                && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+        //            {
+        //                maxScore += enemyAttackAction.attackScore;
+        //            }
+        //        }
+        //    }
+        //
+        //    int randomValue = Random.Range(0, maxScore);
+        //    int temporaryScore = 0;
+        //
+        //    for (int i = 0; i < enemyAttackActions.Length; i++)
+        //    {
+        //        EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
+        //
+        //        if (enemyLocomotionManager.distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
+        //            && enemyLocomotionManager.distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
+        //        {
+        //            if (viewableAngle <= enemyAttackAction.maximumAttackAngle
+        //                && viewableAngle >= enemyAttackAction.minimumAttackAngle)
+        //            {
+        //                if (currentAttack != null)
+        //                    return;
+        //
+        //                temporaryScore += enemyAttackAction.attackScore;
+        //
+        //                if (temporaryScore > randomValue)
+        //                {
+        //                    currentAttack = enemyAttackAction;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        //#endregion
     }
 }
