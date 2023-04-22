@@ -11,6 +11,7 @@ namespace SOULS
         public bool isLeftHandSlot;
 
         public GameObject currentWeaponModel;
+        public WeaponItem currentWeapon;
 
         public void UnloadWeapon()
         {

@@ -21,6 +21,8 @@ namespace SOULS
         public bool isGrounded;
         public bool isDead;
         public bool canDoCombo;
+        public bool isUsingRightHand;
+
 
         private void Awake()
         {
@@ -40,6 +42,7 @@ namespace SOULS
 
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
+            isUsingRightHand = anim.GetBool("isUsingRightHand");
 
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
