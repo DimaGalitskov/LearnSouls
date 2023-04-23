@@ -43,18 +43,18 @@ namespace SOULS
 
         public void TakeDamage(int damage)
         {
-            if (!playerManager.isDead)
-            {
-                currentHealth -= damage;
-                soulsHUD.SetCurrentHealth(currentHealth);
-                animatorHandler.PlayTargetAnimation("Damaged", true);
+            if (playerManager.isDead)
+                return;
 
-                if (currentHealth <= 0)
-                {
-                    playerManager.isDead = true;
-                    currentHealth = 0;
-                    animatorHandler.PlayTargetAnimation("Dying", true);
-                }
+            currentHealth -= damage;
+            soulsHUD.SetCurrentHealth(currentHealth);
+            animatorHandler.PlayTargetAnimation("Damaged", true);
+
+            if (currentHealth <= 0)
+            {
+                playerManager.isDead = true;
+                currentHealth = 0;
+                animatorHandler.PlayTargetAnimation("Dying", true);
             }
         }
 
