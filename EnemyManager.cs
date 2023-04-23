@@ -18,6 +18,7 @@ namespace SOULS
 
         public bool isPerformingAction;
         public bool isInteracting;
+        public bool isDead;
         public float rotationSpeed = 25;
         public float maximumAttackRange = 2f;
 

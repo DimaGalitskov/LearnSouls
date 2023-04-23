@@ -86,5 +86,30 @@ namespace SOULS
         {
             rightHandDamageCollider.DisableDamageCollider();
         }
+
+
+        #region Handle Weapon Damage Colliders
+
+        public void LoadLeftWeaponDamageCollider()
+        {
+            leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        public void LoadRightWeaponDamageCollider()
+        {
+            rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+        }
+
+        #endregion
+
+        #region Handle Weapon Stamina Drain
+        public void DrainStaminaLightAttack()
+        {
+        }
+
+        public void DrainStaminaHeavyAttack()
+        {
+        }
+        #endregion
     }
 }

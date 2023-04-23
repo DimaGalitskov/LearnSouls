@@ -23,5 +23,15 @@ namespace SOULS
             Vector3 velocity = deltaPostition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
         }
+
+        public void EnableCombo()
+        {
+            anim.SetBool("canDoCombo", true);
+        }
+
+        public void DisableCombo()
+        {
+            anim.SetBool("canDoCombo", false);
+        }
     }
 }
