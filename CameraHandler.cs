@@ -9,21 +9,23 @@ namespace SOULS
         public Transform targetTransform;
         public Transform cameraTransform;
         public Transform cameraPivotTransform;
-        private Transform myTransform;
-        private Vector3 cameraTransformPosition;
-        private LayerMask ignoreLayers;
-        private Vector3 cameraFollowVelocity = Vector3.zero;
+
+        Transform myTransform;
+        Vector3 cameraTransformPosition;
+        Vector3 cameraFollowVelocity = Vector3.zero;
 
         public static CameraHandler singleton;
+        public LayerMask collisionLayers;
 
         public float lookSpeed = 0.1f;
         public float followSpeed = 0.05f;
         public float pivotSpeed = 0.03f;
 
-        private float targetPosition;
-        private float defaultPosition;
-        private float lookAngle;
-        private float pivotAngle;
+        float targetPosition;
+        float defaultPosition;
+        float lookAngle;
+        float pivotAngle;
+
         public float minimumPivot = -35;
         public float maximumPivot = 35;
 
@@ -36,7 +38,6 @@ namespace SOULS
             singleton = this;
             myTransform = transform;
             defaultPosition = cameraTransform.localPosition.z;
-            ignoreLayers = ~(1 << 6 | 1 << 8 | 1 << 9 | 1 << 10);
             targetTransform = FindObjectOfType<PlayerManager>().transform;
         }
 
@@ -72,7 +73,7 @@ namespace SOULS
             direction.Normalize();
 
             if (Physics.SphereCast
-                (cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), ignoreLayers))
+                (cameraPivotTransform.position, cameraSphereRadius, direction, out hit, Mathf.Abs(targetPosition), collisionLayers))
             {
                 float dis = Vector3.Distance(cameraPivotTransform.position, hit.point);
                 targetPosition = -(dis - cameraCollisionOffset);
