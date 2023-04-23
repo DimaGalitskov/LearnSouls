@@ -9,6 +9,7 @@ namespace SOULS
     {
         public bool isSleeping;
         public float detectionRaduis = 2;
+        public float sleepRecoveryTime;
         public string sleepAnimation;
         public string wakeAnimation;
 
@@ -42,6 +43,8 @@ namespace SOULS
                     {
                         enemyManager.currentTarget = characterStats;
                         isSleeping = false;
+                        enemyManager.isPerformingAction = true;
+                        enemyManager.currentRecoveryTime = sleepRecoveryTime;
                         enemyAnimator.PlayTargetAnimation(wakeAnimation, true);
                     }
                 }
