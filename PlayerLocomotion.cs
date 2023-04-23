@@ -19,6 +19,9 @@ namespace SOULS
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
 
+        public CapsuleCollider charatcerCollider;
+        public CapsuleCollider characterColliderBlocker;
+
         [Header("Movement Stats")]
         [SerializeField]
         float movementSpeed = 5;
@@ -54,6 +57,7 @@ namespace SOULS
             playerManager.isGrounded = true;
             ignoreForGroundCheck = ~(1 << 6 | 1 << 8 | 1 << 11);
 
+            Physics.IgnoreCollision(charatcerCollider, characterColliderBlocker, true);
         }
 
         #region Movement

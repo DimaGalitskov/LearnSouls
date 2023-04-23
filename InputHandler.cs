@@ -29,6 +29,7 @@ namespace SOULS
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
+        AnimatorManager animatorManager;
         CameraHandler cameraHandler;
 
         Vector2 movementInput;
@@ -40,6 +41,7 @@ namespace SOULS
             playerAttacker = GetComponent<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            animatorManager = GetComponentInChildren<AnimatorManager>();
         }
 
         public void OnEnable()
@@ -123,6 +125,8 @@ namespace SOULS
                     if (playerManager.canDoCombo)
                         return;
 
+
+                    animatorManager.anim.SetBool("isUsingRightHand", true);
                     playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
                 }
             }
