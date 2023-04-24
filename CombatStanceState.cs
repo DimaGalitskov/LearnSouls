@@ -49,11 +49,11 @@ namespace SOULS
 
                 if (direction == Vector3.zero)
                 {
-                    direction = transform.forward;
+                    direction = enemyManager.transform.forward;
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
             //Rotate using Navmesh
             else

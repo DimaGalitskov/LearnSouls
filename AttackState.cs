@@ -20,8 +20,8 @@ namespace SOULS
             //Set our recovery time to the attacks recovery
             //Return to the combat stance state
 
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, transform.forward);
+            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
             HandleRotateTowardsTarget(enemyManager);
@@ -126,11 +126,11 @@ namespace SOULS
 
                 if (direction == Vector3.zero)
                 {
-                    direction = transform.forward;
+                    direction = enemyManager.transform.forward;
                 }
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
+                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
             //Rotate using Navmesh
             else
