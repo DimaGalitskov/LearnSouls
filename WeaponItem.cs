@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace SOULS
 {
+    public enum WeaponType
+    {
+        SpellCaster,
+        FaithCaster,
+        PyroCaster,
+        MeleeWeapon
+    }
+
     [CreateAssetMenu(menuName = "Items/Weapon Item")]
     public class WeaponItem : Item
     {
@@ -31,5 +39,8 @@ namespace SOULS
         public int baseStamina;
         public float lightAttackMultiplier;
         public float heavyAttackMultiplier;
+
+        [Header("Weapon Type")]
+        public WeaponType weaponType;
     }
 }

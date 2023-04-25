@@ -38,7 +38,7 @@ namespace SOULS
 
         private void Awake()
         {
-            playerAttacker = GetComponent<PlayerAttacker>();
+            playerAttacker = GetComponentInChildren<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             animatorManager = GetComponentInChildren<AnimatorManager>();
@@ -111,24 +111,7 @@ namespace SOULS
         {
             if (rb_Input)
             {
-                if (playerManager.canDoCombo)
-                {
-                    comboFlag = true;
-                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
-                    comboFlag = false;
-                }
-                else
-                {
-                    if (playerManager.isInteracting)
-                        return;
-
-                    if (playerManager.canDoCombo)
-                        return;
-
-
-                    animatorManager.anim.SetBool("isUsingRightHand", true);
-                    playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
-                }
+                playerAttacker.HandleRBAction();
             }
             if (rt_Input)
             {
