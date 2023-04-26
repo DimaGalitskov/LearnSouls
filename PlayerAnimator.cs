@@ -106,6 +106,16 @@ namespace SOULS
             Destroy(particle, 1);
         }
 
+        public void EnableIsInvulnerable()
+        {
+            anim.SetBool("isInvulnerable", true);
+        }
+
+        public void DisableIsInvulnerable()
+        {
+            anim.SetBool("isInvulnerable", false);
+        }
+
         private void OnAnimatorMove()
         {
             if (playerManager.isInteracting == false)
