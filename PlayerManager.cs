@@ -13,6 +13,7 @@ namespace SOULS
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
         PlayerStats playerStats;
+        PlayerAnimator playerAnimator;
 
         public bool isInteracting;
 
@@ -29,14 +30,16 @@ namespace SOULS
         private void Awake()
         {
             cameraHandler = FindObjectOfType<CameraHandler>();
-        }
-
-        void Start()
-        {
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
+            playerAnimator = GetComponentInChildren<PlayerAnimator>();
+        }
+
+        void Start()
+        {
+
         }
 
         void Update()
@@ -49,15 +52,19 @@ namespace SOULS
             isInvulnerable = anim.GetBool("isInvulnerable");
 
             inputHandler.TickInput(delta);
-            playerLocomotion.HandleMovement(delta);
+            playerAnimator.canRotate = anim.GetBool("canRotate");
             playerLocomotion.HandleRollingAndSprinting(delta);
-            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerStats.RegenerateStamina();
         }
 
         private void FixedUpdate()
         {
             float delta = Time.fixedDeltaTime;
+
+            playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            playerLocomotion.HandleMovement(delta);
+            playerLocomotion.HandleRotation(delta);
+
 
             if (cameraHandler != null)
             {

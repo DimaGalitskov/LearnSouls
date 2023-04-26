@@ -64,25 +64,30 @@ namespace SOULS
         Vector3 normalVector;
         Vector3 targetPosition;
 
-        private void HandleRotation(float delta) {
-            Vector3 targetDir = Vector3.zero;
-            float moveOverride = inputHandler.moveAmount;
+        public void HandleRotation(float delta) {
+            if (animatorHandler.canRotate)
+            {
+                Vector3 targetDir = Vector3.zero;
+                float moveOverride = inputHandler.moveAmount;
 
-            targetDir = cameraObject.forward * inputHandler.vertical;
-            targetDir += cameraObject.right * inputHandler.horizontal;
+                targetDir = cameraObject.forward * inputHandler.vertical;
+                targetDir += cameraObject.right * inputHandler.horizontal;
 
-            targetDir.Normalize();
-            targetDir.y = 0;
+                targetDir.Normalize();
+                targetDir.y = 0;
 
-            if (targetDir == Vector3.zero)
-                targetDir = myTransform.forward;
+                if (targetDir == Vector3.zero)
+                    targetDir = myTransform.forward;
 
-            float rs = rotationSpeed;
+                float rs = rotationSpeed;
 
-            Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
+                Quaternion tr = Quaternion.LookRotation(targetDir);
+                Quaternion targetRotation = Quaternion.Slerp(myTransform.rotation, tr, rs * delta);
 
-            myTransform.rotation = targetRotation;
+                myTransform.rotation = targetRotation;
+            }
+
+
 
         }
 
@@ -124,11 +129,6 @@ namespace SOULS
             rigidbody.velocity = projectedVelocity;
 
             animatorHandler.UpdateAnumatorValues(inputHandler.moveAmount, 0, playerManager.isSprinting);
-
-            if (animatorHandler.canRotate)
-            {
-                HandleRotation(delta);
-            }
         }
 
         public void HandleRollingAndSprinting(float delta) {
