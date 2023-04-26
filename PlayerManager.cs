@@ -76,7 +76,6 @@ namespace SOULS
         private void LateUpdate()
         {
             inputHandler.rollFlag = false;
-            inputHandler.sprintFlag = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.dPad_Up = false;

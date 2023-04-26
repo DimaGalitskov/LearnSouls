@@ -29,6 +29,7 @@ namespace SOULS
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
+        PlayerStats playerStats;
         AnimatorManager animatorManager;
         CameraHandler cameraHandler;
 
@@ -41,6 +42,7 @@ namespace SOULS
             playerAttacker = GetComponentInChildren<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             animatorManager = GetComponentInChildren<AnimatorManager>();
         }
 
@@ -93,13 +95,24 @@ namespace SOULS
             if (b_Input)
             {
                 rollInputTimer += delta;
-                sprintFlag = true;
+
+                if (playerStats.currentStamina <= 0)
+                {
+                    b_Input = false;
+                    sprintFlag = false;
+                }
+
+                if (moveAmount > 0.5f && playerStats.currentStamina > 0)
+                {
+                    sprintFlag = true;
+                }
             }
             else
             {
-                if (rollInputTimer > 0 && rollInputTimer < 0.5f)
+                sprintFlag = false;
+
+                if (rollInputTimer > 0 && rollInputTimer < 0.2f)
                 {
-                    sprintFlag = false;
                     rollFlag = true;
                 }
 

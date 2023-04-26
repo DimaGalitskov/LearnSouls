@@ -62,6 +62,9 @@ namespace SOULS
 
         public void HandleHeavyAttack(WeaponItem weapon)
         {
+            if (playerStats.currentStamina <= 0)
+                return;
+
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             lastAttack = weapon.OH_Heavy_Attack_1;

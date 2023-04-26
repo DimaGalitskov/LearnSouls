@@ -35,11 +35,13 @@ namespace SOULS
         [SerializeField]
         float fallingSpeed = 45;
 
-        [Header("Roll Costs")]
+        [Header("Stamina Costs")]
         [SerializeField]
         int rollStaminaCost = 15;
         [SerializeField]
         int backstepStaminaCost = 10;
+        [SerializeField]
+        int sprintStaminaCost = 1;
 
         [Header("Ground and Air Detection Stats")]
         [SerializeField]
@@ -122,6 +124,7 @@ namespace SOULS
                 speed = sprintSpeed;
                 playerManager.isSprinting = true;
                 moveDirection *= speed;
+                playerStats.DrainStamina(sprintStaminaCost);
             }
             else
             {
