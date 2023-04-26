@@ -7,9 +7,16 @@ namespace SOULS
 {
     public class PlayerStats : CharacterStats
     {
-        SoulsHUD soulsHUD;
         PlayerAnimator animatorHandler;
         PlayerManager playerManager;
+
+        SoulsHUD soulsHUD;
+
+        public float staminaRegenerationSpeed;
+        float staminaTimer = 0;
+
+
+
 
         private void Awake()
         {
@@ -35,7 +42,7 @@ namespace SOULS
             return maxHealth;
         }
 
-        int SetMaxStaminaFromStaminaLevel()
+        float SetMaxStaminaFromStaminaLevel()
         {
             maxStamina = staminaLevel * 10;
             return maxStamina;
@@ -43,6 +50,9 @@ namespace SOULS
 
         public void TakeDamage(int damage)
         {
+            if (playerManager.isInvulnerable)
+                return;
+
             if (playerManager.isDead)
                 return;
 
@@ -74,6 +84,24 @@ namespace SOULS
             }
 
             soulsHUD.SetCurrentHealth(currentHealth);
+        }
+
+        public void RegenerateStamina()
+        {
+            if (playerManager.isInteracting)
+            {
+                staminaTimer = 0;
+            }
+            else
+            {
+                staminaTimer += Time.deltaTime;
+
+                if (currentStamina < maxStamina && staminaTimer > 1f)
+                {
+                    currentStamina += staminaRegenerationSpeed * Time.deltaTime;
+                    soulsHUD.SetCurrentStamina(Mathf.RoundToInt(currentStamina));
+                }
+            }
         }
     }
 }

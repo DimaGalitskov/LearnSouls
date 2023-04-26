@@ -12,6 +12,7 @@ namespace SOULS
         Animator anim;
         CameraHandler cameraHandler;
         PlayerLocomotion playerLocomotion;
+        PlayerStats playerStats;
 
         public bool isInteracting;
 
@@ -22,6 +23,7 @@ namespace SOULS
         public bool isDead;
         public bool canDoCombo;
         public bool isUsingRightHand;
+        public bool isInvulnerable;
 
 
         private void Awake()
@@ -34,6 +36,7 @@ namespace SOULS
             inputHandler = GetComponent<InputHandler>();
             anim = GetComponentInChildren<Animator>();
             playerLocomotion = GetComponent<PlayerLocomotion>();
+            playerStats = GetComponent<PlayerStats>();
         }
 
         void Update()
@@ -43,11 +46,13 @@ namespace SOULS
             isInteracting = anim.GetBool("isInteracting");
             canDoCombo = anim.GetBool("canDoCombo");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
+            isInvulnerable = anim.GetBool("isInvulnerable");
 
             inputHandler.TickInput(delta);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
+            playerStats.RegenerateStamina();
         }
 
         private void FixedUpdate()
