@@ -18,6 +18,9 @@ namespace SOULS
         public GameObject spellCastFX;
         public string spellAnimation;
 
+        [Header("Spell Cost")]
+        public int staminaCost;
+
         [Header("Spell Type")]
         public SpellType spellType;
 
@@ -33,6 +36,7 @@ namespace SOULS
         public virtual void SuccessfullyCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats)
         {
             Debug.Log("You successfully cast");
+            playerStats.DrainStamina(staminaCost);
         }
     }
 }

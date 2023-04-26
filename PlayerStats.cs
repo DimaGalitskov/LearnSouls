@@ -57,7 +57,6 @@ namespace SOULS
                 return;
 
             currentHealth -= damage;
-            soulsHUD.SetCurrentHealth(currentHealth);
             animatorHandler.PlayTargetAnimation("Damaged", true);
 
             if (currentHealth <= 0)
@@ -66,11 +65,19 @@ namespace SOULS
                 currentHealth = 0;
                 animatorHandler.PlayTargetAnimation("Dying", true);
             }
+
+            soulsHUD.SetCurrentHealth(currentHealth);
         }
 
         public void DrainStamina(int drain)
         {
             currentStamina -= drain;
+
+            if (currentStamina <= 0)
+            {
+                currentStamina = 0;
+            }
+
             soulsHUD.SetCurrentStamina(currentStamina);
         }
 

@@ -110,12 +110,21 @@ namespace SOULS
 
         public void PerformRBMagicAction(WeaponItem weapon)
         {
+            if (playerManager.isInteracting)
+                return;
+
             if (weapon.weaponType == WeaponType.FaithCaster)
             {
                 if (playerInventory.currentSpell != null && playerInventory.currentSpell.spellType == SpellType.Faith)
                 {
-                    //check for mana
-                    playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                    if (playerStats.currentStamina >= playerInventory.currentSpell.staminaCost)
+                    {
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                    }
+                    else
+                    {
+                        animatorHandler.PlayTargetAnimation("Failing", true);
+                    }
                 }
             }
         }
