@@ -63,5 +63,17 @@ namespace SOULS
             currentStamina -= drain;
             soulsHUD.SetCurrentStamina(currentStamina);
         }
+
+        public void HealPlayer(int healAmount)
+        {
+            currentHealth += healAmount;
+
+            if (currentHealth > maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
+
+            soulsHUD.SetCurrentHealth(currentHealth);
+        }
     }
 }

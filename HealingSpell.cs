@@ -22,8 +22,8 @@ namespace SOULS
         {
             GameObject instantiatedCastSpellFX = Instantiate(spellCastFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
-            playerStats.currentHealth += healAmount;
-            Debug.Log("Casting");
+            playerStats.HealPlayer(healAmount);
+            Debug.Log("Cast successful");
         }
     }
 }

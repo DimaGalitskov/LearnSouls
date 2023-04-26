@@ -31,13 +31,13 @@ namespace SOULS
 
         public void SetMaxStamina(int maxStamina)
         {
-            healthBar.highValue = maxStamina;
-            healthBar.value = maxStamina;
+            staminaBar.highValue = maxStamina;
+            staminaBar.value = maxStamina;
         }
 
         public void SetCurrentStamina(int currentStamina)
         {
-            healthBar.value = currentStamina;
+            staminaBar.value = currentStamina;
         }
     }
 }
