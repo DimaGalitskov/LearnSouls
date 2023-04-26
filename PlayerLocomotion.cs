@@ -7,6 +7,7 @@ namespace SOULS
     public class PlayerLocomotion : MonoBehaviour
     {
         PlayerManager playerManager;
+        PlayerStats playerStats;
         Transform cameraObject;
         InputHandler inputHandler;
         public Vector3 moveDirection;
@@ -34,6 +35,12 @@ namespace SOULS
         [SerializeField]
         float fallingSpeed = 45;
 
+        [Header("Roll Costs")]
+        [SerializeField]
+        int rollStaminaCost = 15;
+        [SerializeField]
+        int backstepStaminaCost = 10;
+
         [Header("Ground and Air Detection Stats")]
         [SerializeField]
         float groundDetectionRayStartPoint = 0.5f;
@@ -44,12 +51,17 @@ namespace SOULS
         LayerMask ignoreForGroundCheck;
         public float inAirTimer;
 
-        void Start()
+        void Awake()
         {
             playerManager = GetComponent<PlayerManager>();
+            playerStats = GetComponent<PlayerStats>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
             animatorHandler = GetComponentInChildren<PlayerAnimator>();
+        }
+
+        void Start()
+        {
             cameraObject = Camera.main.transform;
             myTransform = transform;
             animatorHandler.Initialize();
@@ -135,6 +147,9 @@ namespace SOULS
             if (animatorHandler.anim.GetBool("isInteracting"))
                 return;
 
+            if (playerStats.currentStamina <= 0)
+                return;
+
             if (inputHandler.rollFlag)
             {
                 moveDirection = cameraObject.forward * inputHandler.vertical;
@@ -146,9 +161,11 @@ namespace SOULS
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
+                    playerStats.DrainStamina(rollStaminaCost);
                 }
                 else {
                     animatorHandler.PlayTargetAnimation("BackStep", true);
+                    playerStats.DrainStamina(backstepStaminaCost);
                 }
             }
         }
@@ -168,7 +185,7 @@ namespace SOULS
             if (playerManager.isInAir)
             {
                 rigidbody.AddForce(-Vector3.up * fallingSpeed);
-                rigidbody.AddForce(moveDirection * fallingSpeed / 10F);
+                rigidbody.AddForce(moveDirection * fallingSpeed / 10);
             }
 
             Vector3 dir = moveDirection;
