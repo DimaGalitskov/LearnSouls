@@ -101,8 +101,7 @@ namespace SOULS
 
         public void PlayActionParticle()
         {
-            var particle = Instantiate(particleSystem, transform);
-            Destroy(particle, 1);
+            Instantiate(particleSystem, transform);
         }
 
         public void EnableIsInvulnerable()

@@ -8,6 +8,7 @@ namespace SOULS
     {
         Collider damageCollider;
         public int currentWeaponDamage = 25;
+        public bool enabledOnSpawn;
 
 
         private void Awake()
@@ -15,7 +16,7 @@ namespace SOULS
             damageCollider = GetComponent<Collider>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
-            damageCollider.enabled = false;
+            damageCollider.enabled = enabledOnSpawn;
         }
 
         public void EnableDamageCollider()
