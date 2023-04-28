@@ -50,7 +50,8 @@ namespace SOULS
         float minimumDistanceNeededToBeginFall = 1f;
         [SerializeField]
         float groundDirectionRayDistance = 0.2f;
-        LayerMask ignoreForGroundCheck;
+        [SerializeField]
+        LayerMask groundCheckLayers;
         public float inAirTimer;
 
         void Awake()
@@ -69,7 +70,6 @@ namespace SOULS
             animatorHandler.Initialize();
 
             playerManager.isGrounded = true;
-            ignoreForGroundCheck = ~(1 << 6 | 1 << 8 | 1 << 11);
 
             Physics.IgnoreCollision(charatcerCollider, characterColliderBlocker, true);
         }
@@ -188,7 +188,7 @@ namespace SOULS
             if (playerManager.isInAir)
             {
                 rigidbody.AddForce(-Vector3.up * fallingSpeed);
-                rigidbody.AddForce(moveDirection * fallingSpeed / 10);
+                rigidbody.AddForce(moveDirection * fallingSpeed / 10f);
             }
 
             Vector3 dir = moveDirection;
@@ -198,7 +198,7 @@ namespace SOULS
             targetPosition = myTransform.position;
 
             Debug.DrawRay(origin, -Vector3.up * minimumDistanceNeededToBeginFall, Color.red, 0.1f, false);
-            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, ignoreForGroundCheck))
+            if (Physics.Raycast(origin, -Vector3.up, out hit, minimumDistanceNeededToBeginFall, groundCheckLayers))
             {
                 normalVector = hit.normal;
                 Vector3 tp = hit.point;
@@ -254,6 +254,26 @@ namespace SOULS
             }
         }
 
+        public void HandleJumping()
+        {
+            if (playerManager.isInteracting)
+                return;
+
+            if (inputHandler.jump_input)
+            {
+                if (inputHandler.moveAmount > 0)
+                {
+                    moveDirection = cameraObject.forward * inputHandler.vertical;
+                    moveDirection += cameraObject.right * inputHandler.horizontal;
+
+                    animatorHandler.PlayTargetAnimation("Jumping", true);
+                    moveDirection.y = 0;
+
+                    Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
+                    myTransform.rotation = jumpRotation;
+                }
+            }
+        }
         #endregion
 
     }

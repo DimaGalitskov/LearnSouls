@@ -50,10 +50,13 @@ namespace SOULS
             canDoCombo = anim.GetBool("canDoCombo");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
             isInvulnerable = anim.GetBool("isInvulnerable");
+            anim.SetBool("isInAir", isInAir);
+            
 
             inputHandler.TickInput(delta);
             playerAnimator.canRotate = anim.GetBool("canRotate");
             playerLocomotion.HandleRollingAndSprinting(delta);
+            playerLocomotion.HandleJumping();
             playerStats.RegenerateStamina();
         }
 
@@ -76,6 +79,7 @@ namespace SOULS
         private void LateUpdate()
         {
             inputHandler.rollFlag = false;
+            inputHandler.jump_input = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.dPad_Up = false;

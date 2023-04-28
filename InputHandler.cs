@@ -13,6 +13,7 @@ namespace SOULS
         public float mouseY;
 
         public bool b_Input;
+        public bool jump_input;
         public bool rb_Input;
         public bool rt_Input;
         public bool dPad_Up;
@@ -58,6 +59,9 @@ namespace SOULS
 
                 inputActions.PlayerActions.Roll.performed += ctx => b_Input = true;
                 inputActions.PlayerActions.Roll.canceled += ctx => b_Input = false;
+
+                inputActions.PlayerActions.Jump.performed += ctx => jump_input = true;
+                inputActions.PlayerActions.Jump.canceled += ctx => jump_input = false;
 
                 inputActions.PlayerActions.RB.performed += ctx => rb_Input = true;
 
