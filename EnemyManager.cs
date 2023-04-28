@@ -22,6 +22,9 @@ namespace SOULS
         public float rotationSpeed = 25;
         public float maximumAttackRange = 2f;
 
+        [Header("Combat Flags")]
+        public bool canDoCombo;
+
         [Header("AI Settings")]
         public float detectionRadius = 20;
         public float maximumDetectionAngle = 50;
@@ -46,13 +49,16 @@ namespace SOULS
         void Update()
         {
             HandleRecoveryTime();
+            HandleState();
 
             isInteracting = enemyAnimator.anim.GetBool("isInteracting");
+            canDoCombo = enemyAnimator.anim.GetBool("canDoCombo");
         }
 
-        private void FixedUpdate()
+        private void LateUpdate()
         {
-            HandleState();
+            navMeshAgent.transform.localPosition = Vector3.zero;
+            navMeshAgent.transform.localRotation = Quaternion.identity;
         }
 
         void HandleState()

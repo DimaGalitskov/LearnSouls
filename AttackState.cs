@@ -10,15 +10,25 @@ namespace SOULS
         public CombatStanceState combatStanceState;
 
         public EnemyAttackAction[] enemyAttackActions;
-        public EnemyAttackAction currentAttack; 
+        public EnemyAttackAction currentAttack;
+
+        bool isComboing = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
-            //Select one of the available attacks based on the attack scores
-            //If the selected attack if not able to be used because of bad angle, select a new attack
-            //If the attack is viable, then spot the movement and attack the target
-            //Set our recovery time to the attacks recovery
-            //Return to the combat stance state
+            if (enemyManager.isInteracting && enemyManager.canDoCombo == false)
+            {
+                return this;
+            }
+            else if (enemyManager.isInteracting && enemyManager.canDoCombo)
+            {
+                if (isComboing)
+                {
+                    enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+                    isComboing = false;
+                }
+            }
+
 
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
@@ -27,7 +37,9 @@ namespace SOULS
             HandleRotateTowardsTarget(enemyManager);
 
             if (enemyManager.isPerformingAction)
+            {
                 return combatStanceState;
+            }
 
             if (currentAttack != null)
             {
@@ -50,9 +62,18 @@ namespace SOULS
                             enemyAnimator.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
                             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
                             enemyManager.isPerformingAction = true;
-                            enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-                            currentAttack = null;
-                            return combatStanceState;
+
+                            if (currentAttack.canCombo)
+                            {
+                                currentAttack = currentAttack.comboAction;
+                                return this;
+                            }
+                            else
+                            {
+                                enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+                                currentAttack = null;
+                                return combatStanceState;
+                            }
                         }
                     }
                 }

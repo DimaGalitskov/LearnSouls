@@ -94,16 +94,6 @@ namespace SOULS
             anim.SetBool("canDoCombo", false);
         }
 
-        public void SetActionParticle(ParticleSystem current)
-        {
-            particleSystem = current;
-        }
-
-        public void PlayActionParticle()
-        {
-            Instantiate(particleSystem, transform);
-        }
-
         public void EnableIsInvulnerable()
         {
             anim.SetBool("isInvulnerable", true);
@@ -112,6 +102,16 @@ namespace SOULS
         public void DisableIsInvulnerable()
         {
             anim.SetBool("isInvulnerable", false);
+        }
+
+        public void SetActionParticle(ParticleSystem current)
+        {
+            particleSystem = current;
+        }
+
+        public void PlayActionParticle()
+        {
+            Instantiate(particleSystem, transform);
         }
 
         private void OnAnimatorMove()

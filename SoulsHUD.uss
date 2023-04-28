@@ -1,8 +1,5 @@
 .HealthBar {
-    background-color: rgb(186, 0, 0);
-    background-image: url('project://database/Assets/VFX/Materials/FX_MT_VerticalFlames_01.mat?fileID=843201664938580201&guid=5167ca40198a47541837da71213a7ed3&type=2#z__Specular_1Tex{"keys":[{"time":0.0,"value":0.0,"inTangent":1.0,"outTangent":1.0,"inWeight":0.0,"outWeight":0.0,"weightedMode":0},{"time":1.0,"value":1.0,"inTangent":1.0,"outTangent":1.0,"inWeight":0.0,"outWeight":0.0,"weightedMode":0}]}');
-    -unity-background-image-tint-color: rgb(255, 255, 255);
-    opacity: 1;
+    background-color: #6A6A6A;
 }
 
 .QuickSlot {

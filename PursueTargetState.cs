@@ -12,9 +12,8 @@ namespace SOULS
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
-            //Chase the target
-            //If within the attack range, switch to combat stance state
-            //If the target is out of range, return this state and keep chasing
+            if (enemyManager.isInteracting)
+                return this;
 
             if (enemyManager.isPerformingAction)
             {
@@ -32,9 +31,6 @@ namespace SOULS
             }
 
             HandleRotateTowardsTarget(enemyManager);
-
-            enemyManager.navMeshAgent.transform.localPosition = Vector3.zero;
-            enemyManager.navMeshAgent.transform.localRotation = Quaternion.identity;
 
             if (distanceFromTarget <= enemyManager.maximumAttackRange)
             {

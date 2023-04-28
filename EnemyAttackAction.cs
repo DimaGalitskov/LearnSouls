@@ -7,6 +7,9 @@ namespace SOULS
     [CreateAssetMenu(menuName = "AI / Anemy Actions / Attack Actions")]
     public class EnemyAttackAction : EnemyAction
     {
+        public bool canCombo;
+        public EnemyAttackAction comboAction;
+
         public int attackScore = 3;
         public float recoveryTime = 2;
 

@@ -12,6 +12,9 @@ namespace SOULS
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
+            if (enemyManager.isInteracting)
+                return this;
+
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
             HandleRotateTowardsTarget(enemyManager);
