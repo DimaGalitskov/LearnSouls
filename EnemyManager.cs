@@ -30,6 +30,10 @@ namespace SOULS
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
 
+        [Header("AI Combat Settings")]
+        public bool isAllowedCombo;
+        public float comboChance;
+
         public float currentRecoveryTime = 0;
 
         private void Awake()
