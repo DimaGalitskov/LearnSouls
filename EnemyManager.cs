@@ -20,10 +20,14 @@ namespace SOULS
         public bool isInteracting;
         public bool isDead;
         public float rotationSpeed = 25;
-        public float maximumAttackRange = 2f;
+        public float maximumAggroRadius = 2f;
 
         [Header("Combat Flags")]
         public bool canDoCombo;
+
+        [Header("Movement Flags")]
+        public bool canRotate;
+        public bool isRootRotating;
 
         [Header("AI Settings")]
         public float detectionRadius = 20;
@@ -55,8 +59,10 @@ namespace SOULS
             HandleRecoveryTime();
             HandleState();
 
+            isRootRotating = enemyAnimator.anim.GetBool("isRootRotating");
             isInteracting = enemyAnimator.anim.GetBool("isInteracting");
             canDoCombo = enemyAnimator.anim.GetBool("canDoCombo");
+            canRotate = enemyAnimator.anim.GetBool("canRotate");
         }
 
         private void LateUpdate()

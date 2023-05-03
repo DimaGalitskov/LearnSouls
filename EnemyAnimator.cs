@@ -22,6 +22,11 @@ namespace SOULS
             deltaPostition.y = 0;
             Vector3 velocity = deltaPostition / delta;
             enemyManager.enemyRigidbody.velocity = velocity;
+
+            if (enemyManager.isRootRotating)
+            {
+                enemyManager.transform.rotation *= anim.deltaRotation;
+            }
         }
 
         public void CanRotate()

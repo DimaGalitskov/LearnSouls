@@ -16,5 +16,13 @@ namespace SOULS
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.1f);
         }
+
+        public void PlayTargetAnimationWithRootRotation(string targetAnim, bool isInteracting)
+        {
+            anim.applyRootMotion = isInteracting;
+            anim.SetBool("isRootRotating", true);
+            anim.SetBool("isInteracting", isInteracting);
+            anim.CrossFade(targetAnim, 0.1f);
+        }
     }
 }
