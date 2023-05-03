@@ -20,7 +20,8 @@ namespace SOULS
         public bool isInteracting;
         public bool isDead;
         public float rotationSpeed = 25;
-        public float maximumAggroRadius = 2f;
+        public float maximumAggroRadius = 5f;
+        public float minimumAggroRadius = 0.5f;
 
         [Header("Combat Flags")]
         public bool canDoCombo;

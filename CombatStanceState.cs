@@ -8,8 +8,8 @@ namespace SOULS
     public class CombatStanceState : State
     {
         public AttackState attackState;
-        public EnemyAttackAction[] enemyAttackActions;
         public PursueTargetState pursueTargetState;
+        public EnemyAttackAction[] enemyAttackActions;
 
         bool isRandomPointSet = false;
         float verticalMovementValue = 0;
@@ -34,6 +34,12 @@ namespace SOULS
             {
                 return pursueTargetState;
             }
+
+            //if (distanceFromTarget < enemyManager.minimumAggroRadius)
+            //{
+            //    enemyAnimator.PlayTargetAnimation("BackStep", true);
+            //    return this;
+            //}
 
             if (!isRandomPointSet)
             {
