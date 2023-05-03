@@ -7,141 +7,67 @@ namespace SOULS
 {
     public class AttackState : State
     {
+        public RotateTowardsTargetState rotateTowardsTargetState;
         public CombatStanceState combatStanceState;
-
-        public EnemyAttackAction[] enemyAttackActions;
+        public PursueTargetState pursueTargetState;
         public EnemyAttackAction currentAttack;
 
         bool isComboingNextAttack = false;
+        public bool hasPerformedAttack = false;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
-            if (enemyManager.isInteracting && enemyManager.canDoCombo == false)
+            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            RotateTowardsTargetWhileAttacking(enemyManager);
+
+
+            if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
+                return pursueTargetState;
+            }
+
+            if (isComboingNextAttack
+                && enemyManager.canDoCombo)
+            {
+                AttackTargetWithCombo(enemyAnimator, enemyManager);
+            }
+
+            if (!hasPerformedAttack)
+            {
+                AttackTarget(enemyAnimator, enemyManager);
+                RollForComboChance(enemyManager);
+            }
+
+            if (isComboingNextAttack
+                && hasPerformedAttack)
+            {
+                //go back to perform the combo attack
                 return this;
             }
-            else if (enemyManager.isInteracting && enemyManager.canDoCombo)
-            {
-                if (isComboingNextAttack)
-                {
-                    isComboingNextAttack = false;
-                    enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
-                }
-            }
 
-
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-
-            HandleRotateTowardsTarget(enemyManager);
-
-            if (enemyManager.isPerformingAction)
-            {
-                return combatStanceState;
-            }
-
-            if (currentAttack != null)
-            {
-                //If we are too close to perform the attack, get a new attack
-                if (distanceFromTarget < currentAttack.minimumDistanceToAttack)
-                {
-                    return this;
-                }
-                //If we are close enough then we proceed
-                else if (distanceFromTarget < currentAttack.maximumDistanceToAttack)
-                {
-                    //If our enemy is within our attack viewable angle, then we attack
-                    if (viewableAngle <= currentAttack.maximumAttackAngle
-                        && viewableAngle >= currentAttack.minimumAttackAngle)
-                    {
-                        if (enemyManager.currentRecoveryTime <= 0
-                            && enemyManager.isPerformingAction == false)
-                        {
-                            enemyAnimator.anim.SetFloat("Vertical", 0, 0.1f, Time.deltaTime);
-                            enemyAnimator.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
-                            enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
-                            enemyManager.isPerformingAction = true;
-
-                            RollForComboChance(enemyManager);
-
-                            if (currentAttack.canCombo && isComboingNextAttack)
-                            {
-                                currentAttack = currentAttack.comboAction;
-                                return this;
-                            }
-                            else
-                            {
-                                enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
-                                currentAttack = null;
-                                return combatStanceState;
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                GetNewAttack(enemyManager);
-            }
-
-            return combatStanceState;
+            return rotateTowardsTargetState;
         }
 
 
-        private void GetNewAttack(EnemyManager enemyManager)
+        private void AttackTarget(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
         {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-
-            int maxScore = 0;
-            for (int i = 0; i < enemyAttackActions.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
-
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
-                        && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        maxScore += enemyAttackAction.attackScore;
-                    }
-                }
-            }
-
-            int randomValue = Random.Range(0, maxScore);
-            int temporaryScore = 0;
-
-            for (int i = 0; i < enemyAttackActions.Length; i++)
-            {
-                EnemyAttackAction enemyAttackAction = enemyAttackActions[i];
-
-                if (distanceFromTarget <= enemyAttackAction.maximumDistanceToAttack
-                    && distanceFromTarget >= enemyAttackAction.minimumDistanceToAttack)
-                {
-                    if (viewableAngle <= enemyAttackAction.maximumAttackAngle
-                        && viewableAngle >= enemyAttackAction.minimumAttackAngle)
-                    {
-                        if (currentAttack != null)
-                            return;
-
-                        temporaryScore += enemyAttackAction.attackScore;
-
-                        if (temporaryScore > randomValue)
-                        {
-                            currentAttack = enemyAttackAction;
-                        }
-                    }
-                }
-            }
+            enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            hasPerformedAttack = true;
         }
 
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager)
+        private void AttackTargetWithCombo(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
+        {
+            enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
+            isComboingNextAttack = false;
+            currentAttack = null;
+        }
+
+        private void RotateTowardsTargetWhileAttacking(EnemyManager enemyManager)
         {
             //Rotate manually
-            if (enemyManager.isPerformingAction)
+            if (enemyManager.canRotate && enemyManager.isInteracting)
             {
                 Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
                 direction.y = 0;
@@ -155,17 +81,7 @@ namespace SOULS
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
-            //Rotate using Navmesh
-            else
-            {
-                Vector3 relativeDirection = transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity);
-                Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
 
-                enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
-                enemyManager.enemyRigidbody.velocity = targetVelocity;
-                enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
-            }
         }
 
         private void RollForComboChance(EnemyManager enemyManager)
@@ -174,7 +90,16 @@ namespace SOULS
 
             if (enemyManager.isAllowedCombo && comboRoll <= enemyManager.comboChance)
             {
-                isComboingNextAttack = true;
+                if (currentAttack.comboAction != null)
+                {
+                    isComboingNextAttack = true;
+                    currentAttack = currentAttack.comboAction;
+                }
+                else
+                {
+                    isComboingNextAttack = false;
+                    currentAttack = null;
+                }
             }
         }
     }
