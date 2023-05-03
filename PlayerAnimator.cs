@@ -9,7 +9,6 @@ namespace SOULS
         PlayerManager playerManager;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
-        ParticleSystem particleSystem;
         int vertical;
         int horizontal;
 
@@ -102,16 +101,6 @@ namespace SOULS
         public void DisableIsInvulnerable()
         {
             anim.SetBool("isInvulnerable", false);
-        }
-
-        public void SetActionParticle(ParticleSystem current)
-        {
-            particleSystem = current;
-        }
-
-        public void PlayActionParticle()
-        {
-            Instantiate(particleSystem, transform);
         }
 
         private void OnAnimatorMove()

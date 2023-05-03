@@ -9,6 +9,8 @@ namespace SOULS
         public Animator anim;
         public bool canRotate;
 
+        ParticleSystem particleSystem;
+
         public void PlayTargetAnimation(string targetAnim, bool isInteracting)
         {
             anim.applyRootMotion = isInteracting;
@@ -23,6 +25,16 @@ namespace SOULS
             anim.SetBool("isRootRotating", true);
             anim.SetBool("isInteracting", isInteracting);
             anim.CrossFade(targetAnim, 0.1f);
+        }
+
+        public void SetActionParticle(ParticleSystem current)
+        {
+            particleSystem = current;
+        }
+
+        public void PlayActionParticle()
+        {
+            Instantiate(particleSystem, transform);
         }
     }
 }

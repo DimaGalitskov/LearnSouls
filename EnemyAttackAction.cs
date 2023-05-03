@@ -7,6 +7,7 @@ namespace SOULS
     [CreateAssetMenu(menuName = "AI / Anemy Actions / Attack Actions")]
     public class EnemyAttackAction : EnemyAction
     {
+        public ParticleSystem attackParticle;
         public bool canCombo;
         public EnemyAttackAction comboAction;
 

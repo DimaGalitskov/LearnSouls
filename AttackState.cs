@@ -52,6 +52,7 @@ namespace SOULS
         private void AttackTarget(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
         {
             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimator.SetActionParticle(currentAttack.attackParticle);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformedAttack = true;
         }
@@ -59,6 +60,7 @@ namespace SOULS
         private void AttackTargetWithCombo(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
         {
             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimator.SetActionParticle(currentAttack.attackParticle);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             isComboingNextAttack = false;
             currentAttack = null;
