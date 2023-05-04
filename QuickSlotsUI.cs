@@ -23,25 +23,23 @@ namespace SOULS
             {
                 if (weapon.itemIcon != null)
                 {
-                    rightWeaponIcon.style.backgroundImage = new StyleBackground(weapon.itemIcon);
-                }
-                else
-                {
-                    rightWeaponIcon.style.backgroundImage = null;
-                }
-
-            }
-            else
-            {
-                if (weapon.itemIcon != null)
-                {
                     leftWeaponIcon.style.backgroundImage = new StyleBackground(weapon.itemIcon);
                 }
                 else
                 {
                     leftWeaponIcon.style.backgroundImage = null;
                 }
-
+            }
+            else
+            {
+                if (weapon.itemIcon != null)
+                {
+                    rightWeaponIcon.style.backgroundImage = new StyleBackground(weapon.itemIcon);
+                }
+                else
+                {
+                    rightWeaponIcon.style.backgroundImage = null;
+                }
             }
         }
     }

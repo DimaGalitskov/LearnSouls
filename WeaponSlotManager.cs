@@ -51,7 +51,7 @@ namespace SOULS
                 leftHandSlot.LoadWeaponModel(weaponItem);
                 LoadLeftWeaponDamageCollider();
                 quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
-                #region Left Weapon Idle Animations
+
                 if (weaponItem != null)
                 {
                     animator.CrossFade(weaponItem.left_Hand_Idle, 0.2f);
@@ -60,7 +60,7 @@ namespace SOULS
                 {
                     animator.CrossFade("Left Arm Empty", 0.2f);
                 }
-                #endregion
+
             }
             else
             {
@@ -68,7 +68,7 @@ namespace SOULS
                 rightHandSlot.LoadWeaponModel(weaponItem);
                 LoadRightWeaponDamageCollider();
                 quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
-                #region Right Weapon Idle Animations
+
                 if (weaponItem != null)
                 {
                     animator.CrossFade(weaponItem.right_Hand_Idle, 0.2f);
@@ -77,7 +77,7 @@ namespace SOULS
                 {
                     animator.CrossFade("Right Arm Empty", 0.2f);
                 }
-                #endregion
+
             }
         }
 

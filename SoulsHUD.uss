@@ -1,10 +1,72 @@
-.HealthBar {
-    background-color: #6A6A6A;
-}
-
 .QuickSlot {
     background-color: rgba(0, 0, 0, 0.53);
 }
 
-.StaminaBar {
+.unity-progress-bar__title-container {
+    background-color: rgba(161, 124, 124, 0);
+    display: flex;
+}
+
+.unity-progress-bar__background {
+    border-top-left-radius: 1px;
+    border-bottom-left-radius: 1px;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    border-left-color: rgba(0, 0, 0, 0.51);
+    border-right-color: rgba(0, 0, 0, 0.51);
+    border-top-color: rgba(0, 0, 0, 0.51);
+    border-bottom-color: rgba(0, 0, 0, 0.51);
+    background-color: rgba(75, 75, 75, 0.53);
+}
+
+.unity-progress-bar__progress {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.unity-progress-bar {
+    width: 300px;
+    height: 10px;
+}
+
+.status__avatar {
+    width: 60px;
+    height: 80px;
+    background-image: url('project://database/Assets/Art/Outsider%201.png?fileID=2800000&guid=b6bb85f71ed6c47c68ace5ffdb3ddd1e&type=3#Outsider 1');
+    -unity-background-scale-mode: scale-and-crop;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.status {
+    position: absolute;
+    bottom: 100px;
+    left: 60px;
+}
+
+.unity-progress-bar__container {
+    height: auto;
+    max-height: none;
+    min-height: auto;
+}
+
+.progress-bar__stamina {
+    width: 200px;
+}
+
+.progress-bar__stamina .unity-progress-bar__progress {
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgb(39, 169, 190);
+}
+
+.progress-bar__health .unity-progress-bar__progress {
+    background-color: rgb(178, 43, 41);
 }
