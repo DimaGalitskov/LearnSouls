@@ -82,6 +82,8 @@ namespace SOULS
             inputHandler.jump_input = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
+            inputHandler.lb_Input = false;
+            inputHandler.lt_Input = false;
             inputHandler.dPad_Up = false;
             inputHandler.dPad_Down = false;
             inputHandler.dPad_Right = false;

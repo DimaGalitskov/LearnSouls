@@ -16,6 +16,8 @@ namespace SOULS
         public bool jump_input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool lb_Input;
+        public bool lt_Input;
         public bool dPad_Up;
         public bool dPad_Down;
         public bool dPad_Right;
@@ -66,6 +68,10 @@ namespace SOULS
                 inputActions.PlayerActions.RB.performed += ctx => rb_Input = true;
 
                 inputActions.PlayerActions.RT.performed += ctx => rt_Input = true;
+
+                inputActions.PlayerActions.LB.performed += ctx => lb_Input = true;
+
+                inputActions.PlayerActions.LT.performed += ctx => lt_Input = true;
 
                 inputActions.PlayerQuickSlots.DpadRight.performed += ctx => dPad_Right = true;
 
@@ -132,7 +138,15 @@ namespace SOULS
             }
             if (rt_Input)
             {
-                playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+                playerAttacker.HandleRTAction();
+            }
+            if (lb_Input)
+            {
+                playerAttacker.HandleLBAction();
+            }
+            if (lt_Input)
+            {
+                playerAttacker.HandleLTAction();
             }
         }
 
