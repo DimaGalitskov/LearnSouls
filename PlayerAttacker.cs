@@ -45,9 +45,26 @@ namespace SOULS
                     animatorHandler.SetActionParticle(weapon.OH_Light_Particle_3);
                     lastAttack = weapon.OH_Light_Attack_3;
                 }
+                else if (lastAttack == weapon.OH_Light_Attack_3)
+                {
+                    animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_4, true);
+                    animatorHandler.SetActionParticle(weapon.OH_Light_Particle_4);
+                    lastAttack = weapon.OH_Light_Attack_4;
+                }
+                else if (lastAttack == weapon.spell_1.name)
+                {
+                    playerInventory.currentSpell = weapon.spell_2;
+                    HandleLightCast(playerInventory.leftWeapon);
+                }
+                else if (lastAttack == weapon.spell_heavy_1.name)
+                {
+                    playerInventory.currentSpell = weapon.spell_heavy_2;
+                    HandleLightCast(playerInventory.leftWeapon);
+                }
             }
-
         }
+
+
 
         public void HandleLightAttack(WeaponItem weapon)
         {
@@ -67,11 +84,11 @@ namespace SOULS
 
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
+            animatorHandler.SetActionParticle(weapon.OH_Heavy_Particle_1);
             lastAttack = weapon.OH_Heavy_Attack_1;
         }
 
 
-        #region Input Actions
         public void HandleRBAction()
         {
             if (playerInventory.rightWeapon.weaponType == WeaponType.MeleeWeapon)
@@ -91,10 +108,31 @@ namespace SOULS
                 PerformRBMagicAction(playerInventory.rightWeapon);
             }
         }
-        #endregion
 
+        public void HandleRTAction()
+        {
+            if (playerInventory.rightWeapon.weaponType == WeaponType.MeleeWeapon)
+            {
+                HandleHeavyAttack(playerInventory.rightWeapon);
+            }
+        }
 
-        #region Attack Actions
+        public void HandleLBAction()
+        {
+            if (playerInventory.leftWeapon.weaponType == WeaponType.PyroCaster)
+            {
+                PerformLBMagicAction(playerInventory.leftWeapon);
+            }
+        }
+
+        public void HandleLTAction()
+        {
+            if (playerInventory.leftWeapon.weaponType == WeaponType.PyroCaster)
+            {
+                PerformLTMagicAction(playerInventory.leftWeapon);
+            }
+        }
+
         public void PerformRBMeleeAction()
         {
             if (playerManager.canDoCombo)
@@ -138,11 +176,72 @@ namespace SOULS
             }
         }
 
+        public void PerformLBMagicAction(WeaponItem weapon)
+        {
+            if (playerManager.canDoCombo)
+            {
+                inputHandler.comboFlag = true;
+                HandleWeaponCombo(playerInventory.leftWeapon);
+                inputHandler.comboFlag = false;
+            }
+            else
+            {
+                if (playerManager.isInteracting)
+                    return;
+
+                if (playerManager.canDoCombo)
+                    return;
+
+
+                animatorHandler.anim.SetBool("isUsingRightHand", false);
+                playerInventory.currentSpell = weapon.spell_1;
+                HandleLightCast(playerInventory.leftWeapon);
+            }
+        }
+
+        public void PerformLTMagicAction(WeaponItem weapon)
+        {
+            if (playerManager.canDoCombo)
+            {
+                inputHandler.comboFlag = true;
+                HandleWeaponCombo(playerInventory.leftWeapon);
+                inputHandler.comboFlag = false;
+            }
+            else
+            {
+                if (playerManager.isInteracting)
+                    return;
+
+                if (playerManager.canDoCombo)
+                    return;
+
+
+                animatorHandler.anim.SetBool("isUsingRightHand", false);
+                playerInventory.currentSpell = weapon.spell_heavy_1;
+                HandleLightCast(playerInventory.leftWeapon);
+            }
+        }
+
+        public void HandleLightCast(WeaponItem weapon)
+        {
+            if (playerInventory.currentSpell != null)
+            {
+                if (playerStats.currentStamina >= playerInventory.currentSpell.staminaCost)
+                {
+                    playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                    lastAttack = playerInventory.currentSpell.name;
+                }
+                else
+                {
+                    animatorHandler.PlayTargetAnimation("Failing", true);
+                }
+            }
+        }
+
         private void SuccessfullyCastSpell()
         {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
         }
 
-        #endregion
     }
 }

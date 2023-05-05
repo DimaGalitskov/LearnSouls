@@ -22,7 +22,6 @@ namespace SOULS
         public string right_Hand_Idle;
         public string left_Hand_Idle;
 
-
         [Header("Attack Animations")]
         public string OH_Light_Attack_1;
         public string OH_Light_Attack_2;
@@ -34,6 +33,14 @@ namespace SOULS
         public ParticleSystem OH_Light_Particle_1;
         public ParticleSystem OH_Light_Particle_2;
         public ParticleSystem OH_Light_Particle_3;
+        public ParticleSystem OH_Light_Particle_4;
+        public ParticleSystem OH_Heavy_Particle_1;
+
+        [Header("Spells")]
+        public SpellItem spell_1;
+        public SpellItem spell_2;
+        public SpellItem spell_heavy_1;
+        public SpellItem spell_heavy_2;
 
         [Header("Stamina Costs")]
         public int baseStamina;

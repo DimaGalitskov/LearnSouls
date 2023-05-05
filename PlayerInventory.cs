@@ -69,7 +69,7 @@ namespace SOULS
             if (currentLeftWeaponIndex == 0 && weaponsInLeftHandSlots[0] != null)
             {
                 leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(weaponsInLeftHandSlots[currentLeftWeaponIndex], false);
+                weaponSlotManager.LoadWeaponOnSlot(weaponsInLeftHandSlots[currentLeftWeaponIndex], true);
             }
             else if (currentLeftWeaponIndex == 0 && weaponsInLeftHandSlots[0] == null)
             {
@@ -78,7 +78,7 @@ namespace SOULS
             else if (currentLeftWeaponIndex == 1 && weaponsInLeftHandSlots[1] != null)
             {
                 leftWeapon = weaponsInLeftHandSlots[currentLeftWeaponIndex];
-                weaponSlotManager.LoadWeaponOnSlot(weaponsInLeftHandSlots[currentLeftWeaponIndex], false);
+                weaponSlotManager.LoadWeaponOnSlot(weaponsInLeftHandSlots[currentLeftWeaponIndex], true);
             }
             else if (currentLeftWeaponIndex == 1 && weaponsInLeftHandSlots[1] == null)
             {
