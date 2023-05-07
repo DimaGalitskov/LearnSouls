@@ -19,8 +19,8 @@ namespace SOULS
         QuickSlotsUI quickSlotsUI;
 
         PlayerStats playerStats;
-
         PlayerManager playerManager;
+        PlayerInventory playerInventory;
 
         private void Awake()
         {
@@ -28,6 +28,7 @@ namespace SOULS
             quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
             playerStats = GetComponentInParent<PlayerStats>();
             playerManager = GetComponentInParent<PlayerManager>();
+            playerInventory = GetComponentInParent<PlayerInventory>();
 
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
@@ -41,6 +42,12 @@ namespace SOULS
                     rightHandSlot = weaponSlot;
                 }
             }
+        }
+
+        public void LoadWeaponsOnBothSlots()
+        {
+            LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+            LoadWeaponOnSlot(playerInventory.leftWeapon, true);
         }
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)

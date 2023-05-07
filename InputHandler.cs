@@ -13,6 +13,7 @@ namespace SOULS
         public float mouseY;
 
         public bool b_Input;
+        public bool x_Input;
         public bool jump_input;
         public bool rb_Input;
         public bool rt_Input;
@@ -33,8 +34,10 @@ namespace SOULS
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         PlayerStats playerStats;
-        AnimatorManager animatorManager;
+        PlayerEffecter playerEffecter;
+        PlayerAnimator playerAnimator;
         CameraHandler cameraHandler;
+        WeaponSlotManager weaponSlotManager;
 
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -46,7 +49,9 @@ namespace SOULS
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
-            animatorManager = GetComponentInChildren<AnimatorManager>();
+            playerEffecter = GetComponentInChildren<PlayerEffecter>();
+            playerAnimator = GetComponentInChildren<PlayerAnimator>();
+            weaponSlotManager = GetComponent<WeaponSlotManager>();
         }
 
         public void OnEnable()
@@ -61,6 +66,8 @@ namespace SOULS
 
                 inputActions.PlayerActions.Roll.performed += ctx => b_Input = true;
                 inputActions.PlayerActions.Roll.canceled += ctx => b_Input = false;
+
+                inputActions.PlayerActions.X.performed += ctx => x_Input = true;
 
                 inputActions.PlayerActions.Jump.performed += ctx => jump_input = true;
                 inputActions.PlayerActions.Jump.canceled += ctx => jump_input = false;
@@ -91,6 +98,7 @@ namespace SOULS
             HandleRollInput(delta);
             HandleAttackInput(delta);
             HandleQuickSlotInput();
+            HandleCosumableInput();
         }
 
         private void MoveInput(float delta) {
@@ -159,6 +167,15 @@ namespace SOULS
             else if (dPad_Left)
             {
                 playerInventory.ChangeLeftWeapon();
+            }
+        }
+
+        private void HandleCosumableInput()
+        {
+            if (x_Input)
+            {
+                x_Input = false;
+                playerInventory.currentConsumable.AttemptToConsumeItem(playerAnimator, weaponSlotManager, playerEffecter);
             }
         }
     }

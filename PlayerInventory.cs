@@ -8,9 +8,11 @@ namespace SOULS
     {
         WeaponSlotManager weaponSlotManager;
 
-        public SpellItem currentSpell;
+
         public WeaponItem rightWeapon;
         public WeaponItem leftWeapon;
+        public SpellItem currentSpell;
+        public ConsumableItem currentConsumable;
 
         public WeaponItem unarmedWeapon;
 

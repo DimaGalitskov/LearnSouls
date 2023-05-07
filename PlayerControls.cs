@@ -194,6 +194,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""X"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2a807b6-51a9-42ec-aca2-8754ef8bb421"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -304,6 +313,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8d6ef660-5979-433a-9dca-75cae5684c27"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e37102d-f746-47ad-a885-4149722f33a2"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -456,6 +487,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_LB = m_PlayerActions.FindAction("LB", throwIfNotFound: true);
         m_PlayerActions_LT = m_PlayerActions.FindAction("LT", throwIfNotFound: true);
+        m_PlayerActions_X = m_PlayerActions.FindAction("X", throwIfNotFound: true);
         // Player Quick Slots
         m_PlayerQuickSlots = asset.FindActionMap("Player Quick Slots", throwIfNotFound: true);
         m_PlayerQuickSlots_DpadUp = m_PlayerQuickSlots.FindAction("Dpad Up", throwIfNotFound: true);
@@ -583,6 +615,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_LB;
     private readonly InputAction m_PlayerActions_LT;
+    private readonly InputAction m_PlayerActions_X;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -593,6 +626,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @LB => m_Wrapper.m_PlayerActions_LB;
         public InputAction @LT => m_Wrapper.m_PlayerActions_LT;
+        public InputAction @X => m_Wrapper.m_PlayerActions_X;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -620,6 +654,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started += instance.OnLT;
             @LT.performed += instance.OnLT;
             @LT.canceled += instance.OnLT;
+            @X.started += instance.OnX;
+            @X.performed += instance.OnX;
+            @X.canceled += instance.OnX;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -642,6 +679,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LT.started -= instance.OnLT;
             @LT.performed -= instance.OnLT;
             @LT.canceled -= instance.OnLT;
+            @X.started -= instance.OnX;
+            @X.performed -= instance.OnX;
+            @X.canceled -= instance.OnX;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -742,6 +782,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnLB(InputAction.CallbackContext context);
         void OnLT(InputAction.CallbackContext context);
+        void OnX(InputAction.CallbackContext context);
     }
     public interface IPlayerQuickSlotsActions
     {
