@@ -25,6 +25,7 @@ namespace SOULS
             GameObject healParticles = Instantiate(currentFX, playerStats.transform);
             Destroy(instantiatedFX);
             weaponSlotManager.LoadWeaponsOnBothSlots();
+            weaponSlotManager.UpdateConsumableUI();
         }
     }
 }

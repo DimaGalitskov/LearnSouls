@@ -44,6 +44,11 @@ namespace SOULS
             }
         }
 
+        private void Start()
+        {
+            UpdateConsumableUI();
+        }
+
         public void LoadWeaponsOnBothSlots()
         {
             LoadWeaponOnSlot(playerInventory.rightWeapon, false);
@@ -86,6 +91,11 @@ namespace SOULS
                 }
 
             }
+        }
+
+        public void UpdateConsumableUI()
+        {
+            quickSlotsUI.UpdateQuickSlotUI(playerInventory.currentConsumable);
         }
 
         #region Handle Weapon Damage Colliders

@@ -19,6 +19,11 @@ namespace SOULS
         [Header("Consume FX")]
         public GameObject consumeFX;
 
+        private void Start()
+        {
+            currentItemAmount = maxItemAmount;
+        }
+
         public override void AttemptToConsumeItem(PlayerAnimator playerAnimator, WeaponSlotManager weaponSlotManager, PlayerEffecter playerEffecter)
         {
             base.AttemptToConsumeItem(playerAnimator, weaponSlotManager, playerEffecter);

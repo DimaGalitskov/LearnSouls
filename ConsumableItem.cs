@@ -22,6 +22,7 @@ namespace SOULS
         {
             if (currentItemAmount > 0)
             {
+                currentItemAmount--;
                 playerAnimator.PlayTargetAnimation(consumeAnimation, isInteracting);
             }
             else

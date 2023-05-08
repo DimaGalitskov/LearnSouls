@@ -16,7 +16,6 @@ namespace SOULS
             base.AttemptToCastSpell(animatorHandler, playerStats);
             GameObject instantiatedWarmupSpellFX = Instantiate(spellWarupFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
-            Debug.Log("Attempting to cast");
         }
 
         public override void SuccessfullyCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats)
@@ -25,7 +24,6 @@ namespace SOULS
             GameObject instantiatedCastSpellFX = Instantiate(spellCastFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
             playerStats.HealPlayer(healAmount);
-            Debug.Log("Cast successful");
         }
     }
 }

@@ -70,3 +70,9 @@
 .progress-bar__health .unity-progress-bar__progress {
     background-color: rgb(178, 43, 41);
 }
+
+.quickSlotLabel {
+    color: rgb(224, 212, 193);
+    -unity-font-style: bold;
+    -unity-text-align: lower-center;
+}
