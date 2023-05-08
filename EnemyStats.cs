@@ -7,13 +7,13 @@ namespace SOULS
 {
     public class EnemyStats : CharacterStats
     {
-        Animator animator;
+        EnemyAnimator enemyAnimator;
         EnemyManager enemyManager;
 
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
-            animator = GetComponentInChildren<Animator>();
+            enemyAnimator = GetComponentInChildren<EnemyAnimator>();
         }
 
         private void Start()
@@ -35,13 +35,13 @@ namespace SOULS
 
             currentHealth -= damage;
 
-            animator.Play("Damaged");
+            enemyAnimator.PlayTargetAnimation("Damaged", true);
 
             if (currentHealth <= 0)
             {
                 enemyManager.isDead = true;
                 currentHealth = 0;
-                animator.Play("Dying");
+                enemyAnimator.PlayTargetAnimation("Dying", true);
             }
         }
     }
