@@ -224,17 +224,13 @@ namespace SOULS
 
         public void HandleLightCast(WeaponItem weapon)
         {
+            if (playerStats.currentStamina <= 0)
+                return;
+
             if (playerInventory.currentSpell != null)
             {
-                if (playerStats.currentStamina >= playerInventory.currentSpell.staminaCost)
-                {
-                    playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
-                    lastAttack = playerInventory.currentSpell.name;
-                }
-                else
-                {
-                    animatorHandler.PlayTargetAnimation("Failing", true);
-                }
+                playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                lastAttack = playerInventory.currentSpell.name;
             }
         }
 
