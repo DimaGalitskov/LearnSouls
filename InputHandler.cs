@@ -97,6 +97,7 @@ namespace SOULS
             MoveInput(delta);
             HandleRollInput(delta);
             HandleAttackInput(delta);
+            HandleWakeUp();
             HandleQuickSlotInput();
             HandleCosumableInput();
         }
@@ -107,6 +108,18 @@ namespace SOULS
             moveAmount = Mathf.Clamp01(Mathf.Abs(horizontal) + Mathf.Abs(vertical));
             mouseX = cameraInput.x;
             mouseY = cameraInput.y;
+        }
+
+        private void HandleWakeUp()
+        {
+            if (playerManager.isChilling)
+            {
+                if (rb_Input || rt_Input || lb_Input || lt_Input)
+                {
+                    playerManager.isChilling = false;
+                    playerManager.WakeUp();
+                }
+            }
         }
 
         private void HandleRollInput(float delta) {

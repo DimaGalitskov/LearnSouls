@@ -15,9 +15,8 @@ namespace SOULS
         PlayerStats playerStats;
         PlayerAnimator playerAnimator;
 
-        public bool isInteracting;
-
         [Header("Player Flags")]
+        public bool isInteracting;
         public bool isSprinting;
         public bool isInAir;
         public bool isGrounded;
@@ -25,6 +24,11 @@ namespace SOULS
         public bool canDoCombo;
         public bool isUsingRightHand;
         public bool isInvulnerable;
+        public bool isChilling;
+
+        [Header("Chilling Animations")]
+        public string chillAnimation;
+        public string wakeAnimation;
 
 
         private void Awake()
@@ -35,11 +39,6 @@ namespace SOULS
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
             playerAnimator = GetComponentInChildren<PlayerAnimator>();
-        }
-
-        void Start()
-        {
-
         }
 
         void Update()
@@ -64,6 +63,10 @@ namespace SOULS
         {
             float delta = Time.fixedDeltaTime;
 
+            if (isChilling)
+            {
+                playerAnimator.PlayTargetAnimation(chillAnimation, true);
+            }
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleRotation(delta);
@@ -93,6 +96,11 @@ namespace SOULS
             {
                 playerLocomotion.inAirTimer += Time.deltaTime;
             }
+        }
+
+        public void WakeUp()
+        {
+            playerAnimator.PlayTargetAnimation(wakeAnimation, true);
         }
     }
 }
