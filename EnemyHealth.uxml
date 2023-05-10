@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/EnemyHealth.uss?fileID=7433441132597879392&amp;guid=af8bd54e69908452f957b5153aa16b38&amp;type=3#EnemyHealth" />
+    <ui:ProgressBar name="HealthBar" class="health-bar" />
+</ui:UXML>

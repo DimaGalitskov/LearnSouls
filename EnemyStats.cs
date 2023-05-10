@@ -9,17 +9,20 @@ namespace SOULS
     {
         EnemyAnimator enemyAnimator;
         EnemyManager enemyManager;
+        UIEnemyHealthBar enemyHealthBar;
 
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
             enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+            enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
         }
 
         private void Start()
         {
             maxHealth = SetMaxHealthFromHealthLevel();
             currentHealth = maxHealth;
+            enemyHealthBar.SetMaxHealth(maxHealth);
         }
 
         int SetMaxHealthFromHealthLevel()
@@ -34,7 +37,7 @@ namespace SOULS
                 return;
 
             currentHealth -= damage;
-
+            enemyHealthBar.SetCurrentHealth(currentHealth);
             enemyAnimator.PlayTargetAnimation("Damaged", true);
 
             if (currentHealth <= 0)
