@@ -31,7 +31,7 @@ namespace SOULS
             return maxHealth;
         }
 
-        public void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             if (enemyManager.isDead)
                 return;
@@ -42,8 +42,8 @@ namespace SOULS
 
             if (currentHealth <= 0)
             {
-                enemyManager.isDead = true;
                 currentHealth = 0;
+                enemyManager.isDead = true;
                 enemyAnimator.PlayTargetAnimation("Dying", true);
             }
         }

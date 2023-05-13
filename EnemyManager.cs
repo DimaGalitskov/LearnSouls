@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace SOULS
 {
-    public class EnemyManager : MonoBehaviour
+    public class EnemyManager : CharacterManager
     {
         EnemyLocomotionManager enemyLocomotionManager;
         EnemyAnimator enemyAnimator;

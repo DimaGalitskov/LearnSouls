@@ -13,5 +13,10 @@ namespace SOULS
         public int staminaLevel = 10;
         public float maxStamina;
         public float currentStamina;
+
+        public virtual void TakeDamage(int damage)
+        {
+
+        }
     }
 }

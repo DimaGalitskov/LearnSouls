@@ -7,9 +7,8 @@ namespace SOULS
     public class WeaponSlotManager : MonoBehaviour
     {
         public WeaponItem attackingWeapon;
-
-        WeaponHolderSlot rightHandSlot;
-        WeaponHolderSlot leftHandSlot;
+        public WeaponHolderSlot rightHandSlot;
+        public WeaponHolderSlot leftHandSlot;
 
         DamageCollider rightHandDamageCollider;
         DamageCollider leftHandDamageCollider;

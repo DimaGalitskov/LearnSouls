@@ -48,7 +48,7 @@ namespace SOULS
             return maxStamina;
         }
 
-        public void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             if (playerManager.isInvulnerable)
                 return;
@@ -57,16 +57,15 @@ namespace SOULS
                 return;
 
             currentHealth -= damage;
+            soulsHUD.SetCurrentHealth(currentHealth);
             animatorHandler.PlayTargetAnimation("Damaged", true);
 
             if (currentHealth <= 0)
             {
-                playerManager.isDead = true;
                 currentHealth = 0;
+                playerManager.isDead = true;
                 animatorHandler.PlayTargetAnimation("Dying", true);
             }
-
-            soulsHUD.SetCurrentHealth(currentHealth);
         }
 
         public void DrainStamina(int drain)

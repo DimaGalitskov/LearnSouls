@@ -166,7 +166,7 @@ namespace SOULS
                 {
                     if (playerStats.currentStamina >= playerInventory.currentSpell.staminaCost)
                     {
-                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
                     }
                     else
                     {
@@ -229,14 +229,15 @@ namespace SOULS
 
             if (playerInventory.currentSpell != null)
             {
-                playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
                 lastAttack = playerInventory.currentSpell.name;
             }
         }
 
         private void SuccessfullyCastSpell()
         {
-            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
+            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats, weaponSlotManager);
+            animatorHandler.anim.SetBool("isFiringSpell", true);
         }
 
     }

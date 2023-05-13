@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace SOULS
 {
-    public class PlayerManager : MonoBehaviour
+    public class PlayerManager : CharacterManager
     {
         InputHandler inputHandler;
         Animator anim;
@@ -49,6 +49,7 @@ namespace SOULS
             canDoCombo = anim.GetBool("canDoCombo");
             isUsingRightHand = anim.GetBool("isUsingRightHand");
             isInvulnerable = anim.GetBool("isInvulnerable");
+            isFiringSpell = anim.GetBool("isFiringSpell");
             anim.SetBool("isInAir", isInAir);
             
 
