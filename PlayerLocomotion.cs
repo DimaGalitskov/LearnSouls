@@ -259,7 +259,7 @@ namespace SOULS
             if (playerManager.isInteracting)
                 return;
 
-            if (inputHandler.jump_input)
+            if (inputHandler.a_input)
             {
                 if (inputHandler.moveAmount > 0)
                 {

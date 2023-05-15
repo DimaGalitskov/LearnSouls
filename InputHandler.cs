@@ -14,7 +14,7 @@ namespace SOULS
 
         public bool b_Input;
         public bool x_Input;
-        public bool jump_input;
+        public bool a_input;
         public bool rb_Input;
         public bool rt_Input;
         public bool lb_Input;
@@ -69,8 +69,7 @@ namespace SOULS
 
                 inputActions.PlayerActions.X.performed += ctx => x_Input = true;
 
-                inputActions.PlayerActions.Jump.performed += ctx => jump_input = true;
-                inputActions.PlayerActions.Jump.canceled += ctx => jump_input = false;
+                inputActions.PlayerActions.A.performed += ctx => a_input = true;
 
                 inputActions.PlayerActions.RB.performed += ctx => rb_Input = true;
 

@@ -15,6 +15,9 @@ namespace SOULS
         PlayerStats playerStats;
         PlayerAnimator playerAnimator;
 
+        [Header("Intaractable Layers")]
+        public LayerMask interactableLayers;
+
         [Header("Player Flags")]
         public bool isInteracting;
         public bool isSprinting;
@@ -56,8 +59,9 @@ namespace SOULS
             inputHandler.TickInput(delta);
             playerAnimator.canRotate = anim.GetBool("canRotate");
             playerLocomotion.HandleRollingAndSprinting(delta);
-            playerLocomotion.HandleJumping();
             playerStats.RegenerateStamina();
+
+            CheckForInteractable();
         }
 
         private void FixedUpdate()
@@ -83,7 +87,7 @@ namespace SOULS
         private void LateUpdate()
         {
             inputHandler.rollFlag = false;
-            inputHandler.jump_input = false;
+            inputHandler.a_input = false;
             inputHandler.rb_Input = false;
             inputHandler.rt_Input = false;
             inputHandler.lb_Input = false;
@@ -102,6 +106,28 @@ namespace SOULS
         public void WakeUp()
         {
             playerAnimator.PlayTargetAnimation(wakeAnimation, true);
+        }
+
+        public void CheckForInteractable()
+        {
+            RaycastHit hit;
+
+            if (Physics.SphereCast(transform.position, 0.3f, transform.forward, out hit, 1f, interactableLayers))
+            {
+                if (hit.collider.CompareTag("Interactable"))
+                {
+                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+                    if (interactableObject != null)
+                    {
+                        Debug.Log(interactableObject);
+                        if (inputHandler.a_input)
+                        {
+                            Debug.Log(inputHandler.a_input);
+                            interactableObject.Interact(this);
+                        }
+                    }
+                }
+            }
         }
     }
 }
