@@ -9,6 +9,7 @@ namespace SOULS
     {
         public AttackState attackState;
         public PursueTargetState pursueTargetState;
+        public DeadState deadState;
         public EnemyAttackAction[] enemyAttackActions;
 
         bool isRandomPointSet = false;
@@ -22,6 +23,10 @@ namespace SOULS
             enemyAnimator.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
             attackState.hasPerformedAttack = false;
 
+            if (enemyManager.isDead)
+            {
+                return deadState;
+            }
 
             if (enemyManager.isInteracting)
             {
@@ -34,12 +39,6 @@ namespace SOULS
             {
                 return pursueTargetState;
             }
-
-            //if (distanceFromTarget < enemyManager.minimumAggroRadius)
-            //{
-            //    enemyAnimator.PlayTargetAnimation("BackStep", true);
-            //    return this;
-            //}
 
             if (!isRandomPointSet)
             {

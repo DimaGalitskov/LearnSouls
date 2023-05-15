@@ -10,12 +10,16 @@ namespace SOULS
     {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
+        public DeadState deadState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
+
+            if (enemyManager.isDead)
+                return deadState;
 
             HandleRotateTowardsTarget(enemyManager);
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 
 
@@ -8,6 +9,7 @@ namespace SOULS
     public class RotateTowardsTargetState : State
     {
         public CombatStanceState combatStanceState;
+        public DeadState deadState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
         {
@@ -16,6 +18,9 @@ namespace SOULS
 
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
+
+            if (enemyManager.isDead)
+                return deadState;
 
             if (enemyManager.isInteracting)
                 return this;
