@@ -76,3 +76,11 @@
     -unity-font-style: bold;
     -unity-text-align: lower-center;
 }
+
+.interaction {
+    bottom: 140px;
+    left: 50%;
+    position: absolute;
+    width: 100px;
+    height: 30px;
+}

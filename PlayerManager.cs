@@ -14,6 +14,8 @@ namespace SOULS
         PlayerLocomotion playerLocomotion;
         PlayerStats playerStats;
         PlayerAnimator playerAnimator;
+        SoulsHUD soulsHUD;
+        Interactable interactableObject;
 
         [Header("Intaractable Layers")]
         public LayerMask interactableLayers;
@@ -42,6 +44,7 @@ namespace SOULS
             playerLocomotion = GetComponent<PlayerLocomotion>();
             playerStats = GetComponent<PlayerStats>();
             playerAnimator = GetComponentInChildren<PlayerAnimator>();
+            soulsHUD = FindObjectOfType<SoulsHUD>();
         }
 
         void Update()
@@ -116,17 +119,21 @@ namespace SOULS
             {
                 if (hit.collider.CompareTag("Interactable"))
                 {
-                    Interactable interactableObject = hit.collider.GetComponent<Interactable>();
+                    soulsHUD.ShowTooltip();
+                    interactableObject = hit.collider.GetComponent<Interactable>();
                     if (interactableObject != null)
                     {
-                        Debug.Log(interactableObject);
                         if (inputHandler.a_input)
                         {
-                            Debug.Log(inputHandler.a_input);
                             interactableObject.Interact(this);
                         }
                     }
                 }
+            }
+            else
+            {
+                interactableObject = null;
+                soulsHUD.HideTooltip();
             }
         }
     }
