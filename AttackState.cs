@@ -38,10 +38,14 @@ namespace SOULS
                 RollForComboChance(enemyManager);
             }
 
+            if (enemyManager.currentRecoveryTime < 0)
+            {
+                return rotateTowardsTargetState;
+            }
+
             if (isComboingNextAttack
                 && hasPerformedAttack)
             {
-                //go back to perform the combo attack
                 return this;
             }
 
@@ -96,13 +100,12 @@ namespace SOULS
                 {
                     isComboingNextAttack = true;
                     currentAttack = currentAttack.comboAction;
-                }
-                else
-                {
-                    isComboingNextAttack = false;
-                    currentAttack = null;
+                    return;
                 }
             }
+
+            isComboingNextAttack = false;
+            currentAttack = null;
         }
     }
 }

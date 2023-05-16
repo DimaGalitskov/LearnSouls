@@ -48,8 +48,10 @@ namespace SOULS
 
             HandleRotateTowardsTarget(enemyManager);
 
-            if (enemyManager.currentRecoveryTime <= 0
-                && attackState.currentAttack != null)
+            if (enemyManager.currentRecoveryTime > 0)
+                return this;
+
+            if (attackState.currentAttack != null)
             {
                 isRandomPointSet = false;
                 return attackState;
@@ -158,7 +160,7 @@ namespace SOULS
 
                         temporaryScore += enemyAttackAction.attackScore;
 
-                        if (temporaryScore > randomValue)
+                        if (temporaryScore >= randomValue)
                         {
                             attackState.currentAttack = enemyAttackAction;
                         }
