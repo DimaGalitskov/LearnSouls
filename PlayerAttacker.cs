@@ -72,6 +72,7 @@ namespace SOULS
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+            animatorHandler.anim.SetBool("isUsingRightHand", true);
             animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_1, true);
             animatorHandler.SetActionParticle(weapon.OH_Light_Particle_1);
             lastAttack = weapon.OH_Light_Attack_1;
@@ -83,6 +84,7 @@ namespace SOULS
                 return;
 
             weaponSlotManager.attackingWeapon = weapon;
+            animatorHandler.anim.SetBool("isUsingRightHand", true);
             animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_1, true);
             animatorHandler.SetActionParticle(weapon.OH_Heavy_Particle_1);
             lastAttack = weapon.OH_Heavy_Attack_1;
@@ -149,8 +151,6 @@ namespace SOULS
                 if (playerManager.canDoCombo)
                     return;
 
-
-                animatorHandler.anim.SetBool("isUsingRightHand", true);
                 HandleLightAttack(playerInventory.rightWeapon);
             }
         }
