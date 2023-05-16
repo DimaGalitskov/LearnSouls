@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace SOULS
 {
+
     public class CharacterStats : MonoBehaviour
     {
         public int healthLevel = 10;

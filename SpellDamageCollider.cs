@@ -14,7 +14,6 @@ namespace SOULS
         bool hasCollided = false;
         Vector3 impactNoraml;
         Rigidbody rigidbody;
-        CharacterStats spellTarget;
 
         private void Awake()
         {
@@ -29,23 +28,25 @@ namespace SOULS
 
         private void OnCollisionEnter(Collision other)
         {
-            if (!hasCollided)
-            {
-                spellTarget = other.transform.GetComponent<CharacterStats>();
-                if (spellTarget != null)
-                {
-                    spellTarget.TakeDamage(currentWeaponDamage);
-                }
-                hasCollided = true;
-                impactFX = Instantiate(impactFX,
-                    other.GetContact(0).point,
-                    //Quaternion.FromToRotation(Vector3.up, impactNoraml) *
-                    gameObject.transform.rotation * impactFX.transform.rotation);
+            if (hasCollided)
+                return;
 
-                Destroy(projectileFX);
-                Destroy(impactFX, 1f);
-                Destroy(gameObject, 1f);
+            CharacterStats targetStats = other.transform.GetComponent<CharacterStats>();
+            CharacterManager targetManager = other.transform.GetComponent<CharacterManager>();
+
+            if (targetStats != null && targetManager.characterTeam != characterTeam)
+            {
+                targetStats.TakeDamage(currentWeaponDamage);
             }
+            hasCollided = true;
+            impactFX = Instantiate(impactFX,
+                other.GetContact(0).point,
+                //Quaternion.FromToRotation(Vector3.up, impactNoraml) *
+                gameObject.transform.rotation * impactFX.transform.rotation);
+
+            Destroy(projectileFX);
+            Destroy(impactFX, 1f);
+            Destroy(gameObject, 1f);
         }
     }
 }
