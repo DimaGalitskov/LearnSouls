@@ -59,10 +59,8 @@ namespace SOULS
             if (inputActions == null)
             {
                 inputActions = new PlayerControls();
-                inputActions.PlayerMovement.Movement.performed += context =>
-                    movementInput = context.ReadValue<Vector2>();
-                inputActions.PlayerMovement.Camera.performed += context =>
-                    cameraInput = context.ReadValue<Vector2>();
+                inputActions.PlayerMovement.Movement.performed += context => movementInput = context.ReadValue<Vector2>();
+                //inputActions.PlayerMovement.Camera.performed += context => cameraInput = context.ReadValue<Vector2>();
 
                 inputActions.PlayerActions.Roll.performed += ctx => b_Input = true;
                 inputActions.PlayerActions.Roll.canceled += ctx => b_Input = false;
