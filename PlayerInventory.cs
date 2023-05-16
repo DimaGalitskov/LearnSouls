@@ -7,7 +7,7 @@ namespace SOULS
     public class PlayerInventory : MonoBehaviour
     {
         WeaponSlotManager weaponSlotManager;
-
+        QuickSlotsUI quickSlotsUI;
 
         public WeaponItem rightWeapon;
         public WeaponItem leftWeapon;
@@ -25,6 +25,7 @@ namespace SOULS
         private void Awake()
         {
             weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
         }
 
         private void Start()
@@ -93,6 +94,12 @@ namespace SOULS
                 leftWeapon = unarmedWeapon;
                 weaponSlotManager.LoadWeaponOnSlot(unarmedWeapon, false);
             }
+        }
+
+        public void FillConsumable()
+        {
+            currentConsumable.currentItemAmount = currentConsumable.maxItemAmount;
+            quickSlotsUI.UpdateQuickSlotUI(currentConsumable);
         }
     }
 }

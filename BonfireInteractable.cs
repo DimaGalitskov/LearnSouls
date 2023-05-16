@@ -38,20 +38,24 @@ namespace SOULS
         {
             Debug.Log("Bonfire interacted");
             PlayerAnimator playerAnimator;
+            PlayerInventory playerInventory;
             playerAnimator = playerManager.GetComponentInChildren<PlayerAnimator>();
+            playerInventory = playerManager.GetComponent<PlayerInventory>();
 
 
             if (isActivated)
             {
-                //open bonife menu
+                interactableText = "Rest at bonfire";
+                playerAnimator.PlayTargetAnimation(activateAnimation, true);
+                playerInventory.FillConsumable();
+                Instantiate(activationFX, playerManager.transform);
             }
             else
             {
                 //activate bonfire
                 isActivated = true;
                 playerAnimator.PlayTargetAnimation(activateAnimation, true);
-                interactableText = "Rest at bonfire";
-                activationFX.gameObject.SetActive(true);
+                Instantiate(activationFX, transform);
                 fireFX.gameObject.SetActive(true);
             }
         }
