@@ -28,6 +28,7 @@ namespace SOULS
         public string OH_Light_Attack_3;
         public string OH_Light_Attack_4;
         public string OH_Heavy_Attack_1;
+        public string OH_Heavy_Attack_2;
 
         [Header("Attack Effects")]
         public ParticleSystem OH_Light_Particle_1;
@@ -35,6 +36,7 @@ namespace SOULS
         public ParticleSystem OH_Light_Particle_3;
         public ParticleSystem OH_Light_Particle_4;
         public ParticleSystem OH_Heavy_Particle_1;
+        public ParticleSystem OH_Heavy_Particle_2;
 
         [Header("Spells")]
         public SpellItem spell_1;
