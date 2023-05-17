@@ -5,16 +5,10 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class EnemyWeaponSlotManager : MonoBehaviour
+    public class EnemyWeaponSlotManager : CharacterWeaponSlotManager
     {
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
-
-        WeaponHolderSlot rightHandSlot;
-        WeaponHolderSlot leftHandSlot;
-
-        DamageCollider leftHandDamageCollider;
-        DamageCollider rightHandDamageCollider;
 
         private void Awake()
         {
@@ -84,7 +78,15 @@ namespace SOULS
 
         public void CloseDamageCollider()
         {
-            rightHandDamageCollider.DisableDamageCollider();
+            if (rightHandDamageCollider != null)
+            {
+                rightHandDamageCollider.DisableDamageCollider();
+            }
+
+            if (leftHandDamageCollider != null)
+            {
+                leftHandDamageCollider.DisableDamageCollider();
+            }
         }
 
 

@@ -4,31 +4,35 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class WeaponSlotManager : MonoBehaviour
+    public class PlayerWeaponSlotManager : CharacterWeaponSlotManager
     {
-        public WeaponItem attackingWeapon;
-        public WeaponHolderSlot rightHandSlot;
-        public WeaponHolderSlot leftHandSlot;
-
-        DamageCollider rightHandDamageCollider;
-        DamageCollider leftHandDamageCollider;
-
         Animator animator;
-
         QuickSlotsUI quickSlotsUI;
-
-        PlayerStats playerStats;
+        PlayerStatsManager playerStats;
         PlayerManager playerManager;
-        PlayerInventory playerInventory;
+        PlayerInventoryManager playerInventory;
+
+        [Header("Attacking Weapon")]
+        public WeaponItem attackingWeapon;
 
         private void Awake()
         {
-            animator = GetComponentInChildren<Animator>();
+            animator = GetComponent<Animator>();
             quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
-            playerStats = GetComponentInParent<PlayerStats>();
-            playerManager = GetComponentInParent<PlayerManager>();
-            playerInventory = GetComponentInParent<PlayerInventory>();
+            playerStats = GetComponent<PlayerStatsManager>();
+            playerManager = GetComponent<PlayerManager>();
+            playerInventory = GetComponent<PlayerInventoryManager>();
 
+            LoadWeaponHolderSlots();
+        }
+
+        private void Start()
+        {
+            UpdateConsumableUI();
+        }
+
+        private void LoadWeaponHolderSlots()
+        {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
@@ -43,11 +47,6 @@ namespace SOULS
             }
         }
 
-        private void Start()
-        {
-            UpdateConsumableUI();
-        }
-
         public void LoadWeaponsOnBothSlots()
         {
             LoadWeaponOnSlot(playerInventory.rightWeapon, false);
@@ -56,39 +55,47 @@ namespace SOULS
 
         public void LoadWeaponOnSlot(WeaponItem weaponItem, bool isLeft)
         {
-            if (isLeft)
+            if (weaponItem != null)
             {
-                leftHandSlot.currentWeapon = weaponItem;
-                leftHandSlot.LoadWeaponModel(weaponItem);
-                LoadLeftWeaponDamageCollider();
-                quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
-
-                if (weaponItem != null)
+                if (isLeft)
                 {
+                    leftHandSlot.currentWeapon = weaponItem;
+                    leftHandSlot.LoadWeaponModel(weaponItem);
+                    LoadLeftWeaponDamageCollider();
+                    quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                     animator.CrossFade(weaponItem.left_Hand_Idle, 0.2f);
                 }
                 else
                 {
-                    animator.CrossFade("Left Arm Empty", 0.2f);
+                    rightHandSlot.currentWeapon = weaponItem;
+                    rightHandSlot.LoadWeaponModel(weaponItem);
+                    LoadRightWeaponDamageCollider();
+                    quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                    animator.CrossFade(weaponItem.right_Hand_Idle, 0.2f);
                 }
-
             }
             else
             {
-                rightHandSlot.currentWeapon = weaponItem;
-                rightHandSlot.LoadWeaponModel(weaponItem);
-                LoadRightWeaponDamageCollider();
-                quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
+                weaponItem = unarmedWeapon;
 
-                if (weaponItem != null)
+                if (isLeft)
                 {
-                    animator.CrossFade(weaponItem.right_Hand_Idle, 0.2f);
+                    animator.CrossFade("Left Arm Empty", 0.2f);
+                    playerInventory.leftWeapon = weaponItem;
+                    leftHandSlot.currentWeapon = weaponItem;
+                    leftHandSlot.LoadWeaponModel(weaponItem);
+                    LoadLeftWeaponDamageCollider();
+                    quickSlotsUI.UpdateWeaponQuickSlotsUI(true, weaponItem);
                 }
                 else
                 {
                     animator.CrossFade("Right Arm Empty", 0.2f);
+                    playerInventory.rightWeapon = weaponItem;
+                    rightHandSlot.currentWeapon = weaponItem;
+                    rightHandSlot.LoadWeaponModel(weaponItem);
+                    LoadRightWeaponDamageCollider();
+                    quickSlotsUI.UpdateWeaponQuickSlotsUI(false, weaponItem);
                 }
-
             }
         }
 
@@ -96,8 +103,6 @@ namespace SOULS
         {
             quickSlotsUI.UpdateQuickSlotUI(playerInventory.currentConsumable);
         }
-
-        #region Handle Weapon Damage Colliders
 
         public void LoadLeftWeaponDamageCollider()
         {
@@ -134,9 +139,6 @@ namespace SOULS
             }
         }
 
-        #endregion
-
-        #region Handle Weapon Stamina Drain
         public void DrainStaminaLightAttack()
         {
             playerStats.DrainStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.lightAttackMultiplier));
@@ -146,6 +148,5 @@ namespace SOULS
         {
             playerStats.DrainStamina(Mathf.RoundToInt(attackingWeapon.baseStamina * attackingWeapon.heavyAttackMultiplier));
         }
-        #endregion
     }
 }
