@@ -9,7 +9,7 @@ namespace SOULS
     {
         private void OnTriggerEnter(Collider other)
         {
-            CharacterStats otherStats = other.GetComponent<CharacterStats>();
+            CharacterStatsManager otherStats = other.GetComponent<CharacterStatsManager>();
             CharacterManager otherManager = other.GetComponent<CharacterManager>();
             if (otherStats == null)
                 return;

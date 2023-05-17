@@ -11,25 +11,14 @@ namespace SOULS
         InputHandler inputHandler;
         Animator anim;
         CameraHandler cameraHandler;
-        PlayerLocomotion playerLocomotion;
-        PlayerStats playerStats;
-        PlayerAnimator playerAnimator;
+        PlayerLocomotionManager playerLocomotion;
+        PlayerStatsManager playerStats;
+        PlayerAnimatorManager playerAnimator;
         SoulsHUD soulsHUD;
         Interactable interactableObject;
 
         [Header("Intaractable Layers")]
         public LayerMask interactableLayers;
-
-        [Header("Player Flags")]
-        public bool isInteracting;
-        public bool isSprinting;
-        public bool isInAir;
-        public bool isGrounded;
-        public bool isDead;
-        public bool canDoCombo;
-        public bool isUsingRightHand;
-        public bool isInvulnerable;
-        public bool isChilling;
 
         [Header("Chilling Animations")]
         public string chillAnimation;
@@ -40,10 +29,10 @@ namespace SOULS
         {
             cameraHandler = FindObjectOfType<CameraHandler>();
             inputHandler = GetComponent<InputHandler>();
-            anim = GetComponentInChildren<Animator>();
-            playerLocomotion = GetComponent<PlayerLocomotion>();
-            playerStats = GetComponent<PlayerStats>();
-            playerAnimator = GetComponentInChildren<PlayerAnimator>();
+            anim = GetComponent<Animator>();
+            playerLocomotion = GetComponent<PlayerLocomotionManager>();
+            playerStats = GetComponent<PlayerStatsManager>();
+            playerAnimator = GetComponent<PlayerAnimatorManager>();
             soulsHUD = FindObjectOfType<SoulsHUD>();
         }
 
@@ -65,6 +54,7 @@ namespace SOULS
             playerStats.RegenerateStamina();
 
             CheckForInteractable();
+            CheckForSceneReset();
         }
 
         private void FixedUpdate()
@@ -99,6 +89,8 @@ namespace SOULS
             inputHandler.dPad_Down = false;
             inputHandler.dPad_Right = false;
             inputHandler.dPad_Left = false;
+            inputHandler.menuInput = false;
+            inputHandler.menuInput = false;
 
             if (isInAir)
             {
@@ -135,6 +127,14 @@ namespace SOULS
                 interactableObject = null;
                 soulsHUD.HideTooltip();
             }
+        }
+
+        public void CheckForSceneReset()
+        {
+            if (inputHandler.menuInput == false)
+                return;
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
         }
     }
 }

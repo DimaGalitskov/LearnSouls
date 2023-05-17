@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SOULS
 {
 
-    public class CharacterStats : MonoBehaviour
+    public class CharacterStatsManager : MonoBehaviour
     {
         public int healthLevel = 10;
         public int maxHealth;
@@ -16,6 +16,11 @@ namespace SOULS
         public float currentStamina;
 
         public virtual void TakeDamage(int damage)
+        {
+
+        }
+
+        public virtual void TakeDamageNoAnimation(int damage)
         {
 
         }

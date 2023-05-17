@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerStats : CharacterStats
+    public class PlayerStatsManager : CharacterStatsManager
     {
-        PlayerAnimator animatorHandler;
+        PlayerAnimatorManager animatorManager;
         PlayerManager playerManager;
 
         SoulsHUD soulsHUD;
@@ -20,7 +20,7 @@ namespace SOULS
 
         private void Awake()
         {
-            animatorHandler = GetComponentInChildren<PlayerAnimator>();
+            animatorManager = GetComponent<PlayerAnimatorManager>();
             playerManager = GetComponent<PlayerManager>();
             soulsHUD = FindObjectOfType<SoulsHUD>();
         }
@@ -58,13 +58,32 @@ namespace SOULS
 
             currentHealth -= damage;
             soulsHUD.SetCurrentHealth(currentHealth);
-            animatorHandler.PlayTargetAnimation("Damaged", true);
+            animatorManager.PlayTargetAnimation("Damaged", true);
 
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
                 playerManager.isDead = true;
-                animatorHandler.PlayTargetAnimation("Dying", true);
+                animatorManager.PlayTargetAnimation("Dying", true);
+            }
+        }
+
+        public override void TakeDamageNoAnimation(int damage)
+        {
+            if (playerManager.isInvulnerable)
+                return;
+
+            if (playerManager.isDead)
+                return;
+
+            currentHealth -= damage;
+            soulsHUD.SetCurrentHealth(currentHealth);
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                playerManager.isDead = true;
+                animatorManager.PlayTargetAnimation("Dying", true);
             }
         }
 

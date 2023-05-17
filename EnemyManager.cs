@@ -8,23 +8,18 @@ namespace SOULS
     public class EnemyManager : CharacterManager
     {
         EnemyLocomotionManager enemyLocomotionManager;
-        EnemyAnimator enemyAnimator;
+        EnemyAnimatorManager enemyAnimator;
 
         public NavMeshAgent navMeshAgent;
         public State currentState;
-        public CharacterStats currentTarget;
-        public EnemyStats enemyStats;
+        public CharacterStatsManager characterStatsManager;
+        public EnemyStatsManager enemyStats;
         public Rigidbody enemyRigidbody;
 
         public bool isPerformingAction;
-        public bool isInteracting;
-        public bool isDead;
         public float rotationSpeed = 25;
         public float maximumAggroRadius = 5f;
         public float minimumAggroRadius = 0.5f;
-
-        [Header("Combat Flags")]
-        public bool canDoCombo;
 
         [Header("Movement Flags")]
         public bool canRotate;
@@ -44,10 +39,10 @@ namespace SOULS
         private void Awake()
         {
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
-            enemyAnimator = GetComponentInChildren<EnemyAnimator>();
-            enemyStats = GetComponent<EnemyStats>();
-            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
+            enemyAnimator = GetComponent<EnemyAnimatorManager>();
+            enemyStats = GetComponent<EnemyStatsManager>();
             enemyRigidbody = GetComponent<Rigidbody>();
+            navMeshAgent = GetComponentInChildren<NavMeshAgent>();
         }
 
         private void Start()

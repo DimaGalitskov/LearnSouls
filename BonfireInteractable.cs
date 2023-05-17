@@ -37,10 +37,10 @@ namespace SOULS
         public override void Interact(PlayerManager playerManager)
         {
             Debug.Log("Bonfire interacted");
-            PlayerAnimator playerAnimator;
-            PlayerInventory playerInventory;
-            playerAnimator = playerManager.GetComponentInChildren<PlayerAnimator>();
-            playerInventory = playerManager.GetComponent<PlayerInventory>();
+            PlayerAnimatorManager playerAnimator;
+            PlayerInventoryManager playerInventory;
+            playerAnimator = playerManager.GetComponentInChildren<PlayerAnimatorManager>();
+            playerInventory = playerManager.GetComponent<PlayerInventoryManager>();
 
 
             if (isActivated)

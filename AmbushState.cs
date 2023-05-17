@@ -17,7 +17,7 @@ namespace SOULS
 
         public PursueTargetState pursueTargetState;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator)
         {
             if (isSleeping
                 && enemyManager.isInteracting == false)
@@ -31,7 +31,7 @@ namespace SOULS
 
             for (int i = 0; i < colliders.Length; i++)
             {
-                CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+                CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
 
                 if (characterStats != null)
                 {
@@ -41,7 +41,7 @@ namespace SOULS
                     if (viewableAngle > enemyManager.minimumDetectionAngle
                         && viewableAngle < enemyManager.maximumDetectionAngle)
                     {
-                        enemyManager.currentTarget = characterStats;
+                        enemyManager.characterStatsManager = characterStats;
                         isSleeping = false;
                         enemyManager.isPerformingAction = true;
                         enemyManager.currentRecoveryTime = sleepRecoveryTime;
@@ -54,7 +54,7 @@ namespace SOULS
 
             #region Handle State Change
 
-            if (enemyManager.currentTarget != null)
+            if (enemyManager.characterStatsManager != null)
             {
                 return pursueTargetState;
             }

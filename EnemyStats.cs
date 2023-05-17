@@ -5,16 +5,16 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class EnemyStats : CharacterStats
+    public class EnemyStatsManager : CharacterStatsManager
     {
-        EnemyAnimator enemyAnimator;
+        EnemyAnimatorManager enemyAnimator;
         EnemyManager enemyManager;
         UIEnemyHealthBar enemyHealthBar;
 
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
-            enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+            enemyAnimator = GetComponent<EnemyAnimatorManager>();
             enemyHealthBar = GetComponentInChildren<UIEnemyHealthBar>();
         }
 
@@ -39,6 +39,22 @@ namespace SOULS
             currentHealth -= damage;
             enemyHealthBar.SetCurrentHealth(currentHealth);
             enemyAnimator.PlayTargetAnimation("Damaged", true);
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                enemyManager.isDead = true;
+                enemyAnimator.PlayTargetAnimation("Dying", true);
+            }
+        }
+
+        public override void TakeDamageNoAnimation(int damage)
+        {
+            if (enemyManager.isDead)
+                return;
+
+            currentHealth -= damage;
+            enemyHealthBar.SetCurrentHealth(currentHealth);
 
             if (currentHealth <= 0)
             {

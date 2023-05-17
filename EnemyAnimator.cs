@@ -4,14 +4,15 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class EnemyAnimator : AnimatorManager
+    public class EnemyAnimatorManager : AnimatorManager
     {
         EnemyManager enemyManager;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             anim = GetComponent<Animator>();
-            enemyManager = GetComponentInParent<EnemyManager>();
+            enemyManager = GetComponent<EnemyManager>();
         }
 
         private void OnAnimatorMove()
@@ -27,36 +28,6 @@ namespace SOULS
             {
                 enemyManager.transform.rotation *= anim.deltaRotation;
             }
-        }
-
-        public void CanRotate()
-        {
-            anim.SetBool("canRotate", true);
-        }
-
-        public void StopRotation()
-        {
-            anim.SetBool("canRotate", false);
-        }
-
-        public void EnableCombo()
-        {
-            anim.SetBool("canDoCombo", true);
-        }
-
-        public void DisableCombo()
-        {
-            anim.SetBool("canDoCombo", false);
-        }
-
-        public void EnableIsInvulnerable()
-        {
-            anim.SetBool("isInvulnerable", true);
-        }
-
-        public void DisableIsInvulnerable()
-        {
-            anim.SetBool("isInvulnerable", false);
         }
     }
 }

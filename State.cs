@@ -7,6 +7,6 @@ namespace SOULS
 
     public abstract class State : MonoBehaviour
     {
-        public abstract State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator);
+        public abstract State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator);
     }
 }

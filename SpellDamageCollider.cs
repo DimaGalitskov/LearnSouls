@@ -31,7 +31,7 @@ namespace SOULS
             if (hasCollided)
                 return;
 
-            CharacterStats targetStats = other.transform.GetComponent<CharacterStats>();
+            CharacterStatsManager targetStats = other.transform.GetComponent<CharacterStatsManager>();
             CharacterManager targetManager = other.transform.GetComponent<CharacterManager>();
 
             if (targetStats != null && targetManager.characterTeam != characterTeam)

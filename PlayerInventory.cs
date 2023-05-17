@@ -4,17 +4,15 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerInventory : MonoBehaviour
+    public class PlayerInventoryManager : MonoBehaviour
     {
-        WeaponSlotManager weaponSlotManager;
+        PlayerWeaponSlotManager weaponSlotManager;
         QuickSlotsUI quickSlotsUI;
 
         public WeaponItem rightWeapon;
         public WeaponItem leftWeapon;
         public SpellItem currentSpell;
         public ConsumableItem currentConsumable;
-
-        public WeaponItem unarmedWeapon;
 
         public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[1];
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[1];
@@ -24,14 +22,16 @@ namespace SOULS
 
         private void Awake()
         {
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
             quickSlotsUI = FindObjectOfType<QuickSlotsUI>();
         }
 
         private void Start()
         {
-            rightWeapon = unarmedWeapon;
-            leftWeapon = unarmedWeapon;
+            rightWeapon = weaponsInRightHandSlots[0];
+            leftWeapon = weaponsInLeftHandSlots[0];
+            weaponSlotManager.LoadWeaponOnSlot(rightWeapon, false);
+            weaponSlotManager.LoadWeaponOnSlot(leftWeapon, true);
         }
 
         public void ChangeRightWeapon()
@@ -60,8 +60,8 @@ namespace SOULS
             if (currentRightWeaponIndex > weaponsInRightHandSlots.Length - 1)
             {
                 currentRightWeaponIndex = -1;
-                rightWeapon = unarmedWeapon;
-                weaponSlotManager.LoadWeaponOnSlot(unarmedWeapon, false);
+                rightWeapon = weaponSlotManager.unarmedWeapon;
+                weaponSlotManager.LoadWeaponOnSlot(weaponSlotManager.unarmedWeapon, false);
             }
         }
 
@@ -91,8 +91,8 @@ namespace SOULS
             if (currentLeftWeaponIndex > weaponsInLeftHandSlots.Length - 1)
             {
                 currentLeftWeaponIndex = -1;
-                leftWeapon = unarmedWeapon;
-                weaponSlotManager.LoadWeaponOnSlot(unarmedWeapon, false);
+                leftWeapon = weaponSlotManager.unarmedWeapon;
+                weaponSlotManager.LoadWeaponOnSlot(weaponSlotManager.unarmedWeapon, false);
             }
         }
 

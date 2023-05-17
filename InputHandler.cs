@@ -23,6 +23,7 @@ namespace SOULS
         public bool dPad_Down;
         public bool dPad_Right;
         public bool dPad_Left;
+        public bool menuInput;
 
         public bool rollFlag;
         public bool sprintFlag;
@@ -30,14 +31,14 @@ namespace SOULS
         public float rollInputTimer;
 
         PlayerControls inputActions;
-        PlayerAttacker playerAttacker;
-        PlayerInventory playerInventory;
+        PlayerCombatManager playerAttacker;
+        PlayerInventoryManager playerInventory;
         PlayerManager playerManager;
-        PlayerStats playerStats;
-        PlayerEffecter playerEffecter;
-        PlayerAnimator playerAnimator;
+        PlayerStatsManager playerStats;
+        PlayerEffectsManager playerEffecter;
+        PlayerAnimatorManager playerAnimator;
         CameraHandler cameraHandler;
-        WeaponSlotManager weaponSlotManager;
+        PlayerWeaponSlotManager weaponSlotManager;
 
         Vector2 movementInput;
         Vector2 cameraInput;
@@ -45,13 +46,13 @@ namespace SOULS
 
         private void Awake()
         {
-            playerAttacker = GetComponentInChildren<PlayerAttacker>();
-            playerInventory = GetComponent<PlayerInventory>();
+            playerAttacker = GetComponent<PlayerCombatManager>();
+            playerInventory = GetComponent<PlayerInventoryManager>();
             playerManager = GetComponent<PlayerManager>();
-            playerStats = GetComponent<PlayerStats>();
-            playerEffecter = GetComponentInChildren<PlayerEffecter>();
-            playerAnimator = GetComponentInChildren<PlayerAnimator>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerStats = GetComponent<PlayerStatsManager>();
+            playerEffecter = GetComponent<PlayerEffectsManager>();
+            playerAnimator = GetComponent<PlayerAnimatorManager>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         public void OnEnable()
@@ -77,9 +78,11 @@ namespace SOULS
 
                 inputActions.PlayerActions.LT.performed += ctx => lt_Input = true;
 
-                inputActions.PlayerQuickSlots.DpadRight.performed += ctx => dPad_Right = true;
+                //inputActions.PlayerQuickSlots.DpadRight.performed += ctx => dPad_Right = true;
 
-                inputActions.PlayerQuickSlots.DpadLeft.performed += ctx => dPad_Left = true;
+                //inputActions.PlayerQuickSlots.DpadLeft.performed += ctx => dPad_Left = true;
+
+                inputActions.PlayerActions.Menu.performed += ctx => menuInput = true;
             }
 
             inputActions.Enable();

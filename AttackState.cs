@@ -15,9 +15,9 @@ namespace SOULS
         bool isComboingNextAttack = false;
         public bool hasPerformedAttack = false;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator)
         {
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            float distanceFromTarget = Vector3.Distance(enemyManager.characterStatsManager.transform.position, enemyManager.transform.position);
             RotateTowardsTargetWhileAttacking(enemyManager);
 
 
@@ -53,7 +53,7 @@ namespace SOULS
         }
 
 
-        private void AttackTarget(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
+        private void AttackTarget(EnemyAnimatorManager enemyAnimator, EnemyManager enemyManager)
         {
             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyAnimator.SetActionParticle(currentAttack.attackParticle);
@@ -61,7 +61,7 @@ namespace SOULS
             hasPerformedAttack = true;
         }
 
-        private void AttackTargetWithCombo(EnemyAnimator enemyAnimator, EnemyManager enemyManager)
+        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimator, EnemyManager enemyManager)
         {
             enemyAnimator.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyAnimator.SetActionParticle(currentAttack.attackParticle);
@@ -75,7 +75,7 @@ namespace SOULS
             //Rotate manually
             if (enemyManager.canRotate && enemyManager.isInteracting)
             {
-                Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+                Vector3 direction = enemyManager.characterStatsManager.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
 

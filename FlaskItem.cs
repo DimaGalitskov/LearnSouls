@@ -24,7 +24,7 @@ namespace SOULS
             currentItemAmount = maxItemAmount;
         }
 
-        public override void AttemptToConsumeItem(PlayerAnimator playerAnimator, WeaponSlotManager weaponSlotManager, PlayerEffecter playerEffecter)
+        public override void AttemptToConsumeItem(PlayerAnimatorManager playerAnimator, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffecter)
         {
             base.AttemptToConsumeItem(playerAnimator, weaponSlotManager, playerEffecter);
             playerEffecter.currentFX = consumeFX;

@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerAttacker : MonoBehaviour
+    public class PlayerCombatManager : MonoBehaviour
     {
-        PlayerAnimator animatorHandler;
+        PlayerAnimatorManager animatorHandler;
         PlayerManager playerManager;
-        PlayerInventory playerInventory;
-        PlayerStats playerStats;
+        PlayerInventoryManager playerInventory;
+        PlayerStatsManager playerStats;
         InputHandler inputHandler;
-        WeaponSlotManager weaponSlotManager;
+        PlayerWeaponSlotManager weaponSlotManager;
 
         public string lastAttack;
 
         private void Awake()
         {
-            playerManager = GetComponentInParent<PlayerManager>();
-            playerInventory = GetComponentInParent<PlayerInventory>();
-            playerStats = GetComponentInParent<PlayerStats>();
-            inputHandler = GetComponentInParent<InputHandler>();
-            animatorHandler = GetComponent<PlayerAnimator>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerManager = GetComponent<PlayerManager>();
+            playerInventory = GetComponent<PlayerInventoryManager>();
+            playerStats = GetComponent<PlayerStatsManager>();
+            inputHandler = GetComponent<InputHandler>();
+            animatorHandler = GetComponent<PlayerAnimatorManager>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -50,6 +50,13 @@ namespace SOULS
                     animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_4, true);
                     animatorHandler.SetActionParticle(weapon.OH_Light_Particle_4);
                     lastAttack = weapon.OH_Light_Attack_4;
+                }
+                else if (lastAttack == weapon.OH_Heavy_Attack_1)
+                {
+                    Debug.Log("heavy combo");
+                    animatorHandler.PlayTargetAnimation(weapon.OH_Heavy_Attack_2, true);
+                    animatorHandler.SetActionParticle(weapon.OH_Heavy_Particle_2);
+                    lastAttack = weapon.OH_Heavy_Attack_2;
                 }
                 else if (lastAttack == weapon.spell_1.name)
                 {
@@ -115,7 +122,7 @@ namespace SOULS
         {
             if (playerInventory.rightWeapon.weaponType == WeaponType.MeleeWeapon)
             {
-                HandleHeavyAttack(playerInventory.rightWeapon);
+                PerformRTMeleeAction();
             }
         }
 
@@ -152,6 +159,26 @@ namespace SOULS
                     return;
 
                 HandleLightAttack(playerInventory.rightWeapon);
+            }
+        }
+
+        public void PerformRTMeleeAction()
+        {
+            if (playerManager.canDoCombo)
+            {
+                inputHandler.comboFlag = true;
+                HandleWeaponCombo(playerInventory.rightWeapon);
+                inputHandler.comboFlag = false;
+            }
+            else
+            {
+                if (playerManager.isInteracting)
+                    return;
+
+                if (playerManager.canDoCombo)
+                    return;
+
+                HandleHeavyAttack(playerInventory.rightWeapon);
             }
         }
 

@@ -6,7 +6,7 @@ namespace SOULS
 {
     public class DeadState : State
     {
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator)
         {
             return this;
         }

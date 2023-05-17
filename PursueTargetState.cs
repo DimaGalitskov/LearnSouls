@@ -12,10 +12,10 @@ namespace SOULS
         public RotateTowardsTargetState rotateTowardsTargetState;
         public DeadState deadState;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator)
         {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            Vector3 targetDirection = enemyManager.characterStatsManager.transform.position - enemyManager.transform.position;
+            float distanceFromTarget = Vector3.Distance(enemyManager.characterStatsManager.transform.position, enemyManager.transform.position);
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
 
             if (enemyManager.isDead)
@@ -59,7 +59,7 @@ namespace SOULS
             //Rotate manually
             if (enemyManager.isPerformingAction)
             {
-                Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+                Vector3 direction = enemyManager.characterStatsManager.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
 
@@ -78,7 +78,7 @@ namespace SOULS
                 Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
 
                 enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
+                enemyManager.navMeshAgent.SetDestination(enemyManager.characterStatsManager.transform.position);
                 enemyManager.enemyRigidbody.velocity = targetVelocity;
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
             }

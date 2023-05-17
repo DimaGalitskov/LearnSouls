@@ -7,7 +7,7 @@ namespace SOULS
     public class EnemyLocomotionManager : MonoBehaviour
     {
         EnemyManager enemyManager;
-        EnemyAnimator enemyAnimator;
+        EnemyAnimatorManager enemyAnimator;
 
         public CapsuleCollider charatcerCollider;
         public CapsuleCollider characterColliderBlocker;
@@ -17,7 +17,7 @@ namespace SOULS
         private void Awake()
         {
             enemyManager = GetComponent<EnemyManager>();
-            enemyAnimator = GetComponentInChildren<EnemyAnimator>();
+            enemyAnimator = GetComponent<EnemyAnimatorManager>();
         }
 
         private void Start()

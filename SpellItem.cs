@@ -28,12 +28,12 @@ namespace SOULS
         [TextArea]
         public string spellDescription;
 
-        public virtual void AttemptToCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
+        public virtual void AttemptToCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager)
         {
             Debug.Log("You attempt to cast");
         }
 
-        public virtual void SuccessfullyCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
+        public virtual void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager)
         {
             Debug.Log("You successfully cast");
             playerStats.DrainStamina(staminaCost);

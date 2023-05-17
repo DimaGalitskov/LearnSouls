@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerLocomotion : MonoBehaviour
+    public class PlayerLocomotionManager : MonoBehaviour
     {
         PlayerManager playerManager;
-        PlayerStats playerStats;
+        PlayerStatsManager playerStats;
         Transform cameraObject;
         InputHandler inputHandler;
         public Vector3 moveDirection;
@@ -15,7 +15,7 @@ namespace SOULS
         [HideInInspector]
         public Transform myTransform;
         [HideInInspector]
-        public PlayerAnimator animatorHandler;
+        public PlayerAnimatorManager animatorHandler;
 
         public new Rigidbody rigidbody;
         public GameObject normalCamera;
@@ -57,20 +57,17 @@ namespace SOULS
         void Awake()
         {
             playerManager = GetComponent<PlayerManager>();
-            playerStats = GetComponent<PlayerStats>();
+            playerStats = GetComponent<PlayerStatsManager>();
             rigidbody = GetComponent<Rigidbody>();
             inputHandler = GetComponent<InputHandler>();
-            animatorHandler = GetComponentInChildren<PlayerAnimator>();
+            animatorHandler = GetComponent<PlayerAnimatorManager>();
         }
 
         void Start()
         {
             cameraObject = Camera.main.transform;
             myTransform = transform;
-            animatorHandler.Initialize();
-
             playerManager.isGrounded = true;
-
             Physics.IgnoreCollision(charatcerCollider, characterColliderBlocker, true);
         }
 

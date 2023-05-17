@@ -4,26 +4,25 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerAnimator : AnimatorManager
+    public class PlayerAnimatorManager : AnimatorManager
     {
-        PlayerManager playerManager;
         InputHandler inputHandler;
-        PlayerLocomotion playerLocomotion;
+        PlayerLocomotionManager playerLocomotionManager;
+
         int vertical;
         int horizontal;
 
-        public void Initialize()
+        protected override void Awake()
         {
-            playerManager = GetComponentInParent<PlayerManager>();
+            base.Awake();
             anim = GetComponent<Animator>();
-            inputHandler = GetComponentInParent<InputHandler>();
-            playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+            inputHandler = GetComponent<InputHandler>();
+            playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
 
         public void UpdateAnumatorValues(float verticalMovement, float horizontalMovement, bool isSprinting) {
-            #region Vertical
             float v = 0;
 
             if (verticalMovement > 0 && verticalMovement<0.55f) 
@@ -42,9 +41,7 @@ namespace SOULS
             else {
                 v = 0;
             }
-            #endregion
 
-            #region Horizontal
             float h = 0;
 
             if (horizontalMovement > 0 && horizontalMovement < 0.55f)
@@ -63,7 +60,6 @@ namespace SOULS
             else {
                 h = 0;
             }
-            #endregion
 
             if (isSprinting)
             {
@@ -75,45 +71,17 @@ namespace SOULS
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }
 
-        public void CanRotate() {
-            anim.SetBool("canRotate", true);
-        }
-
-        public void StopRotation() {
-            anim.SetBool("canRotate", false);
-        }
-
-        public void EnableCombo()
-        {
-            anim.SetBool("canDoCombo", true);
-        }
-
-        public void DisableCombo()
-        {
-            anim.SetBool("canDoCombo", false);
-        }
-
-        public void EnableIsInvulnerable()
-        {
-            anim.SetBool("isInvulnerable", true);
-        }
-
-        public void DisableIsInvulnerable()
-        {
-            anim.SetBool("isInvulnerable", false);
-        }
-
         private void OnAnimatorMove()
         {
-            if (playerManager.isInteracting == false)
+            if (characterManager.isInteracting == false)
                 return;
 
             float delta = Time.deltaTime;
-            playerLocomotion.rigidbody.drag = 0;
+            playerLocomotionManager.rigidbody.drag = 0;
             Vector3 deltaposition = anim.deltaPosition;
             deltaposition.y = 0;
             Vector3 velocity = deltaposition / delta;
-            playerLocomotion.rigidbody.velocity = velocity;
+            playerLocomotionManager.rigidbody.velocity = velocity;
         }
     }
 }

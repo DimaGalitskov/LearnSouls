@@ -5,18 +5,18 @@ using UnityEngine;
 
 namespace SOULS
 {
-    public class PlayerEffecter : MonoBehaviour
+    public class PlayerEffectsManager : MonoBehaviour
     {
-        PlayerStats playerStats;
-        WeaponSlotManager weaponSlotManager;
+        PlayerStatsManager playerStats;
+        PlayerWeaponSlotManager weaponSlotManager;
         public GameObject currentFX;  //the particle that will play whatever you will do
         public GameObject instantiatedFX;
         public int amountToHeal;
 
         private void Awake()
         {
-            playerStats = GetComponentInParent<PlayerStats>();
-            weaponSlotManager = GetComponent<WeaponSlotManager>();
+            playerStats = GetComponent<PlayerStatsManager>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
         }
 
         public void HealPlayerFromEffect()

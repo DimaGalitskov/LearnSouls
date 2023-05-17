@@ -18,7 +18,7 @@ namespace SOULS
         public string consumeAnimation;
         public bool isInteracting;
 
-        public virtual void AttemptToConsumeItem(PlayerAnimator playerAnimator, WeaponSlotManager weaponSlotManager, PlayerEffecter playerEffecter)
+        public virtual void AttemptToConsumeItem(PlayerAnimatorManager playerAnimator, PlayerWeaponSlotManager weaponSlotManager, PlayerEffectsManager playerEffecter)
         {
             if (currentItemAmount > 0)
             {

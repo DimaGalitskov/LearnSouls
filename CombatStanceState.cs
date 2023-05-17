@@ -16,9 +16,9 @@ namespace SOULS
         float verticalMovementValue = 0;
         float horizontalMovementValue = 0;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimator enemyAnimator)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimator)
         {
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            float distanceFromTarget = Vector3.Distance(enemyManager.characterStatsManager.transform.position, enemyManager.transform.position);
             enemyAnimator.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
             enemyAnimator.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
             attackState.hasPerformedAttack = false;
@@ -69,7 +69,7 @@ namespace SOULS
             //Rotate manually
             if (enemyManager.isPerformingAction)
             {
-                Vector3 direction = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+                Vector3 direction = enemyManager.characterStatsManager.transform.position - enemyManager.transform.position;
                 direction.y = 0;
                 direction.Normalize();
 
@@ -88,13 +88,13 @@ namespace SOULS
                 Vector3 targetVelocity = enemyManager.enemyRigidbody.velocity;
 
                 enemyManager.navMeshAgent.enabled = true;
-                enemyManager.navMeshAgent.SetDestination(enemyManager.currentTarget.transform.position);
+                enemyManager.navMeshAgent.SetDestination(enemyManager.characterStatsManager.transform.position);
                 enemyManager.enemyRigidbody.velocity = targetVelocity;
                 enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
             }
         }
 
-        private void DecideCirclingAction(EnemyAnimator enemyAnimator)
+        private void DecideCirclingAction(EnemyAnimatorManager enemyAnimator)
         {
             //circle with forward movement
             //circle with running
@@ -102,7 +102,7 @@ namespace SOULS
             WalkAroundTarget(enemyAnimator);
         }
 
-        private void WalkAroundTarget(EnemyAnimator enemyAnimator)
+        private void WalkAroundTarget(EnemyAnimatorManager enemyAnimator)
         {
             verticalMovementValue = 0.5f;
 
@@ -122,9 +122,9 @@ namespace SOULS
 
         private void GetNewAttack(EnemyManager enemyManager)
         {
-            Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
+            Vector3 targetDirection = enemyManager.characterStatsManager.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.Angle(targetDirection, enemyManager.transform.forward);
-            float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
+            float distanceFromTarget = Vector3.Distance(enemyManager.characterStatsManager.transform.position, enemyManager.transform.position);
 
             int maxScore = 0;
             for (int i = 0; i < enemyAttackActions.Length; i++)

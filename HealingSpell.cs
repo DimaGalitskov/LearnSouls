@@ -11,14 +11,14 @@ namespace SOULS
     {
         public int healAmount;
 
-        public override void AttemptToCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
+        public override void AttemptToCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager)
         {
             base.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
             GameObject instantiatedSpellFX = Instantiate(spellWarupFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
         }
 
-        public override void SuccessfullyCastSpell(PlayerAnimator animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
+        public override void SuccessfullyCastSpell(PlayerAnimatorManager animatorHandler, PlayerStatsManager playerStats, PlayerWeaponSlotManager weaponSlotManager)
         {
             base.SuccessfullyCastSpell(animatorHandler, playerStats, weaponSlotManager);
             GameObject instantiatedSpellFX = Instantiate(spellCastFX, animatorHandler.transform);
