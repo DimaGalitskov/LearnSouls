@@ -120,7 +120,7 @@
             "id": "4031cebf-75b1-47dd-89ed-e875c3332f02",
             "actions": [
                 {
-                    "name": "Roll",
+                    "name": "B",
                     "type": "Button",
                     "id": "925f9118-ea96-4f13-8676-421678b690e0",
                     "expectedControlType": "Button",
@@ -200,7 +200,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Roll",
+                    "action": "B",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -211,7 +211,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Roll",
+                    "action": "B",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
